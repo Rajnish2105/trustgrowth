@@ -75,8 +75,8 @@ export default function Disclaimer() {
 
       <div className="mb-4">
         <p className="text-sm text-justify leading-relaxed text-gray-700">
-          This service is provided "AS IS" and WHERE-IS basis, without any
-          warranty. Trust Growth and its owners/ affiliates disclaim any
+          This service is provided &quot;AS IS&quot; and WHERE-IS basis, without
+          any warranty. Trust Growth and its owners/ affiliates disclaim any
           warranty of any kind, imputed by the laws of any jurisdiction, whether
           express or implied, as to any matter whatsoever relating to this
           service, including without limitation the implied warranties of
@@ -261,9 +261,9 @@ export default function Disclaimer() {
       <div className="mb-4">
         <p className="text-sm leading-relaxed text-gray-700">
           Trust Growth securities Limited, I Think Techno Campus, Building - B,
-          "Alpha", Office Floor 8, Near Kanjurmarg Station, Opp. Crompton
-          Greaves, Kanjurmarg (East), Mumbai 400 042 Phone: (022) 3075 3400 Fax:
-          (022) 2496 5066. Compliance Officer: Murli V Karkera Email:{" "}
+          &quot;Alpha&quot;, Office Floor 8, Near Kanjurmarg Station, Opp.
+          Crompton Greaves, Kanjurmarg (East), Mumbai 400 042 Phone: (022) 3075
+          3400 Fax: (022) 2496 5066. Compliance Officer: Murli V Karkera Email:{" "}
           <a
             href="mailto:complianceofficer@Trust Growthsec.com"
             className="text-blue-600 hover:text-blue-800 underline"
@@ -354,10 +354,10 @@ export default function Disclaimer() {
       <div className="mb-4">
         <p className="text-sm text-justify leading-relaxed text-gray-700">
           Please note that Trust Growth Securities has a proprietary trading
-          desk. This desk maintains an arm's length distance with the Research
-          team and all its activities are segregated from Research activities.
-          The proprietary desk operates independently, potentially leading to
-          investment decisions that may deviate from research views.
+          desk. This desk maintains an arm&apos;s length distance with the
+          Research team and all its activities are segregated from Research
+          activities. The proprietary desk operates independently, potentially
+          leading to investment decisions that may deviate from research views.
         </p>
       </div>
 

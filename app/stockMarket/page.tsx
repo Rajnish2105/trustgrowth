@@ -6,7 +6,6 @@ import Link from "next/link";
 import StockNavbar from "@/components/stock-navbar";
 
 export default function StockMarketHome() {
-
   return (
     <div>
       <StockNavbar />
@@ -24,7 +23,7 @@ export default function StockMarketHome() {
                 for you.
               </h1>
               <p className="text-xl text-gray-600 mt-6 mb-8">
-                Welcome to Trust Growth: Let's make profit with us.
+                Welcome to Trust Growth: Let&apos;s make profit with us.
               </p>
               <Link
                 href="/contact"
@@ -225,7 +224,6 @@ export default function StockMarketHome() {
       </section>
 
       <Disclaimer />
-
     </div>
   );
 }

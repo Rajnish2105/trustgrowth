@@ -85,10 +85,7 @@ export default function LandingPage() {
 
   return (
     <div className="fixed inset-0 bg-gradient-to-br from-white via-gray-50 to-gray-100 overflow-hidden">
-      <LandingNavbar
-        currentSlide={currentSlide}
-        onSlideChange={setCurrentSlide}
-      />
+      <LandingNavbar currentSlide={currentSlide} />
       <Slider
         slides={slides}
         setCurrentSlide={setCurrentSlide}

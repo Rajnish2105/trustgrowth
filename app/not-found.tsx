@@ -23,7 +23,8 @@ export default function NotFound() {
             Page Not Found
           </h2>
           <p className="text-lg text-slate-600 max-w-md mx-auto">
-            The page you're looking for doesn't exist or has been moved.
+            The page you&apos;re looking for doesn&apos;t exist or has been
+            moved.
           </p>
         </div>
 
@@ -108,7 +109,7 @@ export default function NotFound() {
         <div className="pt-8 border-t border-slate-200 mt-12">
           <p className="text-sm text-slate-500">
             Need help? Contact our support team or browse our services above to
-            find what you're looking for.
+            find what you&apos;re looking for.
           </p>
         </div>
       </div>

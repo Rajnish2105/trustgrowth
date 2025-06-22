@@ -182,7 +182,7 @@ export default function StockMarketPricing() {
       <section className="py-16 bg-gradient-to-br from-emerald-50 to-sky-50">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
-            What's Included in All Plans
+            What&apos;s Included in All Plans
           </h2>
           <div className="grid md:grid-cols-4 gap-6">
             {[
@@ -261,7 +261,7 @@ export default function StockMarketPricing() {
                   <path d="M11.906 14.809q0 1.488-.707 2.66-.707 1.171-1.939 1.954-1.232.783-2.738.783-1.506 0-2.738-.783-1.232-.783-1.939-1.954-.707-1.171-.707-2.66 0-1.895.969-3.238.97-1.343 2.868-2.008l.794-1.229q-1.278.431-2.274 1.127-.996.696-1.742 1.638-.747.942-1.077 2.052-.33 1.11-.33 2.298 0 1.928.91 3.298 1.096 1.683 2.87 2.524 1.774.841 3.738.841 2.072 0 3.763-.996 1.691-.996 2.868-2.671L11.906 14.809zm10.519 0q0 1.488-.707 2.66-.707 1.171-1.939 1.954-1.232.783-2.738.783-1.506 0-2.738-.783-1.232-.783-1.939-1.954-.707-1.171-.707-2.66 0-1.895.969-3.238.97-1.343 2.868-2.008l.794-1.229q-1.278.431-2.274 1.127-.996.696-1.742 1.638-.747.942-1.077 2.052-.33 1.11-.33 2.298 0 1.928.91 3.298 1.096 1.683 2.87 2.524 1.774.841 3.738.841 2.072 0 3.763-.996 1.691-.996 2.868-2.671L22.425 14.809z" />
                 </svg>
                 <p className="relative text-lg text-gray-800 mb-6 italic">
-                  "{testimonial.quote}"
+                  &quot;{testimonial.quote}&quot;
                 </p>
                 <p className="font-semibold text-gray-800">
                   {testimonial.name}

@@ -140,7 +140,9 @@ export default function ContactSection() {
               {contactInfo.map((info, index) => (
                 <div
                   key={index}
-                  ref={(el) => (cardRefs.current[index] = el)}
+                  ref={(el) => {
+                    cardRefs.current[index] = el;
+                  }}
                   className={`flex items-start gap-5 p-6 bg-white/50 rounded-2xl transition-all duration-700 hover:bg-white/80 hover:-translate-y-1 ${
                     visibleCards[index] ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
                   }`}

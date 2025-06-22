@@ -1,10 +1,26 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { ArrowRight, Star, Users, Award } from "lucide-react";
+import { ArrowRight, Star, Users, Award, LucideIcon } from "lucide-react";
+
+interface Slide {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  href: string;
+  gradient: string;
+  bgGradient: string;
+  icon: LucideIcon;
+  features: string[];
+  stats: {
+    number: string;
+    label: string;
+  };
+}
 
 interface SliderProps {
   setCurrentSlide: React.Dispatch<React.SetStateAction<number>>;
-  slides: any[];
+  slides: Slide[];
   currentSlide: number;
 }
 
@@ -43,7 +59,7 @@ export default function Slider({
       container.addEventListener("wheel", handleWheel, { passive: false });
       return () => container.removeEventListener("wheel", handleWheel);
     }
-  }, [isScrolling, slides.length]);
+  }, [isScrolling, slides.length, setCurrentSlide]);
 
   // Handle touch events for mobile
   useEffect(() => {
@@ -89,7 +105,7 @@ export default function Slider({
         container.removeEventListener("touchmove", handleTouchMove);
       };
     }
-  }, [isScrolling, slides.length]);
+  }, [isScrolling, slides.length, setCurrentSlide]);
 
   const getSlidePosition = (index: number) => {
     const diff = (index - currentSlide + slides.length) % slides.length;

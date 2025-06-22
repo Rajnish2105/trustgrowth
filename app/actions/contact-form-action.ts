@@ -145,8 +145,12 @@ async function sendContactMail(data: {
 
     console.log("Contact form email sent successfully:", msg);
     return { message: "Email sent successfully", error: null };
-  } catch (err: any) {
-    console.error("Mail error:", err);
-    return { message: null, error: err.message };
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error("Mail error:", err);
+      return { message: null, error: err.message };
+    }
+    // Optionally handle other error shapes
+    return { message: null, error: "Unknown error occurred" };
   }
 }

@@ -6,13 +6,11 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 interface LandingNavbarProps {
   currentSlide?: number;
-  onSlideChange?: (index: number) => void;
   slides?: Array<{ title: string; href: string; gradient: string }>;
 }
 
 export default function LandingNavbar({
   currentSlide = 0,
-  onSlideChange,
   slides = [
     {
       title: "Web Solutions",

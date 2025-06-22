@@ -349,8 +349,8 @@ export default async function StockMarketPastResults() {
             </h2>
             <p className="text-gray-600 max-w-3xl mx-auto">
               We are backboned and knowledgeable for market analysis, many times
-              and we'll show some portfolios that we managed. Consistent gain
-              and results.
+              and we&apos;ll show some portfolios that we managed. Consistent
+              gain and results.
             </p>
           </div>
 
@@ -490,7 +490,7 @@ export default async function StockMarketPastResults() {
                   ))}
                 </div>
                 <p className="text-gray-600 mb-4 italic">
-                  "{testimonial.comment}"
+                  &quot;{testimonial.comment}&quot;
                 </p>
                 <div>
                   <p className="font-semibold text-gray-800">

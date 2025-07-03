@@ -1,5 +1,5 @@
 import type React from "react";
-import Footer from "@/components/footer";
+import Footer from "@/components/root/footer";
 
 export default function StockMarketLayout({
   children,

@@ -1,7 +1,6 @@
 import Link from "next/link";
+
 import StockNavbar from "@/components/stock-navbar";
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Stock Market Past Results | Trust Growth",
@@ -11,7 +10,7 @@ export const metadata = {
     title: "Stock Market Past Results | Trust Growth",
     description:
       "See the proven track record and past results of Trust Growth's stock market calls. Transparent performance metrics and consistent gains for our clients.",
-    url: "https://trustgrowth.com/stockMarket/past_result",
+    url: "https://trustgrowth.in/stockMarket/past_result",
     siteName: "Trust Growth",
     images: [
       {
@@ -35,27 +34,20 @@ export const metadata = {
 };
 
 export default async function StockMarketPastResults() {
-  const { userId } = await auth();
-
-  if (!userId) {
-    return redirect("/");
-  }
-
   return (
     <div>
       <StockNavbar />
-
       {/* Header */}
-      <section className="py-20 bg-gradient-to-br from-white to-emerald-50">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-800 mb-4">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-white to-emerald-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-8 sm:mb-12">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">
               Past{" "}
               <span className="bg-gradient-to-r from-emerald-500 to-sky-500 bg-clip-text text-transparent">
                 Results
               </span>
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto px-4">
               Track record of our successful calls and performance metrics.
               Consistent gain and results.
             </p>
@@ -64,9 +56,9 @@ export default async function StockMarketPastResults() {
       </section>
 
       {/* Performance Stats */}
-      <section className="py-12 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-8">
+      <section className="py-8 sm:py-12 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {[
               {
                 label: "Overall Success Rate",
@@ -95,13 +87,19 @@ export default async function StockMarketPastResults() {
             ].map((stat, index) => (
               <div
                 key={index}
-                className="text-center bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-8"
+                className="text-center bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-4 sm:p-6 lg:p-8"
               >
-                <div className="text-3xl mb-3">{stat.icon}</div>
-                <div className={`text-3xl font-bold ${stat.color} mb-2`}>
+                <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">
+                  {stat.icon}
+                </div>
+                <div
+                  className={`text-xl sm:text-2xl lg:text-3xl font-bold ${stat.color} mb-1 sm:mb-2`}
+                >
                   {stat.value}
                 </div>
-                <div className="text-gray-600">{stat.label}</div>
+                <div className="text-xs sm:text-sm lg:text-base text-gray-600 leading-tight">
+                  {stat.label}
+                </div>
               </div>
             ))}
           </div>
@@ -109,35 +107,153 @@ export default async function StockMarketPastResults() {
       </section>
 
       {/* Recent Results */}
-      <section className="py-16 bg-gradient-to-br from-emerald-50 to-sky-50">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-8">
+      <section className="py-12 sm:py-16 bg-gradient-to-br from-emerald-50 to-sky-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 sm:mb-8">
             Recent Call Results
           </h2>
-          <div className="bg-white rounded-xl shadow-md overflow-hidden">
+
+          {/* Mobile Card Layout */}
+          <div className="block sm:hidden space-y-4">
+            {[
+              {
+                stock: "RELIANCE",
+                action: "BUY",
+                entry: "2,456",
+                exit: "2,580",
+                return: "+5.05%",
+                status: "Profit",
+                date: "15 Dec",
+              },
+              {
+                stock: "TCS",
+                action: "BUY",
+                entry: "3,234",
+                exit: "3,400",
+                return: "+5.13%",
+                status: "Profit",
+                date: "14 Dec",
+              },
+              {
+                stock: "HDFC BANK",
+                action: "SELL",
+                entry: "1,567",
+                exit: "1,480",
+                return: "+5.55%",
+                status: "Profit",
+                date: "13 Dec",
+              },
+              {
+                stock: "INFOSYS",
+                action: "BUY",
+                entry: "1,456",
+                exit: "1,420",
+                return: "-2.47%",
+                status: "Loss",
+                date: "12 Dec",
+              },
+              {
+                stock: "ICICI BANK",
+                action: "BUY",
+                entry: "987",
+                exit: "1,045",
+                return: "+5.87%",
+                status: "Profit",
+                date: "11 Dec",
+              },
+              {
+                stock: "WIPRO",
+                action: "SELL",
+                entry: "456",
+                exit: "432",
+                return: "+5.26%",
+                status: "Profit",
+                date: "10 Dec",
+              },
+            ].map((result, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-lg shadow-sm border border-gray-200 p-4"
+              >
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <h3 className="font-semibold text-gray-800 text-lg">
+                      {result.stock}
+                    </h3>
+                    <p className="text-sm text-gray-500">{result.date}</p>
+                  </div>
+                  <div className="flex flex-col items-end gap-2">
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        result.action === "BUY"
+                          ? "bg-emerald-100 text-emerald-700"
+                          : "bg-red-100 text-red-700"
+                      }`}
+                    >
+                      {result.action}
+                    </span>
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        result.status === "Profit"
+                          ? "bg-emerald-100 text-emerald-700"
+                          : "bg-red-100 text-red-700"
+                      }`}
+                    >
+                      {result.status}
+                    </span>
+                  </div>
+                </div>
+                <div className="grid grid-cols-3 gap-4 text-sm">
+                  <div>
+                    <p className="text-gray-500">Entry</p>
+                    <p className="font-medium">₹{result.entry}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">Exit</p>
+                    <p className="font-medium">₹{result.exit}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">Return</p>
+                    <p
+                      className={`font-bold ${
+                        result.status === "Profit"
+                          ? "text-emerald-600"
+                          : "text-red-600"
+                      }`}
+                    >
+                      {result.return}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop Table Layout */}
+          <div className="hidden sm:block bg-white rounded-xl shadow-md overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-800">
+                    <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-sm font-semibold text-gray-800">
                       Stock
                     </th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-800">
+                    <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-sm font-semibold text-gray-800">
                       Action
                     </th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-800">
+                    <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-sm font-semibold text-gray-800">
                       Entry
                     </th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-800">
+                    <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-sm font-semibold text-gray-800">
                       Exit
                     </th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-800">
+                    <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-sm font-semibold text-gray-800">
                       Return
                     </th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-800">
+                    <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-sm font-semibold text-gray-800">
                       Status
                     </th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-800">
+                    <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-sm font-semibold text-gray-800">
                       Date
                     </th>
                   </tr>
@@ -221,10 +337,10 @@ export default async function StockMarketPastResults() {
                       key={index}
                       className="hover:bg-gray-50 transition-colors"
                     >
-                      <td className="px-6 py-4 font-medium text-gray-800">
+                      <td className="px-4 lg:px-6 py-3 lg:py-4 font-medium text-gray-800 text-sm lg:text-base">
                         {result.stock}
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 lg:px-6 py-3 lg:py-4">
                         <span
                           className={`px-2 py-1 rounded-full text-xs font-medium ${
                             result.action === "BUY"
@@ -235,15 +351,15 @@ export default async function StockMarketPastResults() {
                           {result.action}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-gray-600">
+                      <td className="px-4 lg:px-6 py-3 lg:py-4 text-gray-600 text-sm lg:text-base">
                         ₹{result.entry}
                       </td>
-                      <td className="px-6 py-4 text-gray-600">
+                      <td className="px-4 lg:px-6 py-3 lg:py-4 text-gray-600 text-sm lg:text-base">
                         ₹{result.exit}
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 lg:px-6 py-3 lg:py-4">
                         <span
-                          className={`font-medium ${
+                          className={`font-medium text-sm lg:text-base ${
                             result.status === "Profit"
                               ? "text-emerald-600"
                               : "text-red-600"
@@ -252,7 +368,7 @@ export default async function StockMarketPastResults() {
                           {result.return}
                         </span>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 lg:px-6 py-3 lg:py-4">
                         <span
                           className={`px-2 py-1 rounded-full text-xs font-medium ${
                             result.status === "Profit"
@@ -263,7 +379,9 @@ export default async function StockMarketPastResults() {
                           {result.status}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-gray-600">{result.date}</td>
+                      <td className="px-4 lg:px-6 py-3 lg:py-4 text-gray-600 text-sm lg:text-base">
+                        {result.date}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -274,12 +392,12 @@ export default async function StockMarketPastResults() {
       </section>
 
       {/* Monthly Performance */}
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-8">
+      <section className="py-12 sm:py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 sm:mb-8">
             Monthly Performance
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {[
               {
                 month: "December 2024",
@@ -305,31 +423,41 @@ export default async function StockMarketPastResults() {
             ].map((month, index) => (
               <div
                 key={index}
-                className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-8"
+                className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 sm:p-8"
               >
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-4">
                   {month.month}
                 </h3>
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Total Calls:</span>
-                    <span className="font-medium">{month.calls}</span>
+                    <span className="text-gray-600 text-sm sm:text-base">
+                      Total Calls:
+                    </span>
+                    <span className="font-medium text-sm sm:text-base">
+                      {month.calls}
+                    </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Profitable:</span>
-                    <span className="font-medium text-emerald-600">
+                    <span className="text-gray-600 text-sm sm:text-base">
+                      Profitable:
+                    </span>
+                    <span className="font-medium text-emerald-600 text-sm sm:text-base">
                       {month.profitable}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Success Rate:</span>
-                    <span className="font-medium text-blue-600">
+                    <span className="text-gray-600 text-sm sm:text-base">
+                      Success Rate:
+                    </span>
+                    <span className="font-medium text-blue-600 text-sm sm:text-base">
                       {month.success}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Average Return:</span>
-                    <span className="font-medium text-emerald-600">
+                    <span className="text-gray-600 text-sm sm:text-base">
+                      Average Return:
+                    </span>
+                    <span className="font-medium text-emerald-600 text-sm sm:text-base">
                       {month.return}
                     </span>
                   </div>
@@ -341,22 +469,21 @@ export default async function StockMarketPastResults() {
       </section>
 
       {/* Quality Results Section */}
-      <section className="py-16 bg-gradient-to-br from-emerald-50 to-sky-50">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+      <section className="py-12 sm:py-16 bg-gradient-to-br from-emerald-50 to-sky-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-3 sm:mb-4">
               Quality Results
             </h2>
-            <p className="text-gray-600 max-w-3xl mx-auto">
+            <p className="text-gray-600 max-w-3xl mx-auto text-sm sm:text-base px-4">
               We are backboned and knowledgeable for market analysis, many times
               and we&apos;ll show some portfolios that we managed. Consistent
               gain and results.
             </p>
           </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white rounded-xl shadow-md p-8">
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+            <div className="bg-white rounded-xl shadow-md p-6 sm:p-8">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
                 Portfolio Performance
               </h3>
               <div className="space-y-4">
@@ -382,14 +509,14 @@ export default async function StockMarketPastResults() {
                     className="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
                   >
                     <div>
-                      <p className="font-medium text-gray-800">
+                      <p className="font-medium text-gray-800 text-sm sm:text-base">
                         {portfolio.name}
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-xs sm:text-sm text-gray-500">
                         {portfolio.period}
                       </p>
                     </div>
-                    <div className="text-lg font-bold text-emerald-600">
+                    <div className="text-base sm:text-lg font-bold text-emerald-600">
                       {portfolio.return}
                     </div>
                   </div>
@@ -397,8 +524,8 @@ export default async function StockMarketPastResults() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-md p-8">
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">
+            <div className="bg-white rounded-xl shadow-md p-6 sm:p-8">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
                 Sector-wise Performance
               </h3>
               <div className="space-y-4">
@@ -429,10 +556,14 @@ export default async function StockMarketPastResults() {
                     className="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
                   >
                     <div>
-                      <p className="font-medium text-gray-800">{sector.name}</p>
-                      <p className="text-sm text-gray-500">{sector.period}</p>
+                      <p className="font-medium text-gray-800 text-sm sm:text-base">
+                        {sector.name}
+                      </p>
+                      <p className="text-xs sm:text-sm text-gray-500">
+                        {sector.period}
+                      </p>
                     </div>
-                    <div className="text-lg font-bold text-emerald-600">
+                    <div className="text-base sm:text-lg font-bold text-emerald-600">
                       {sector.return}
                     </div>
                   </div>
@@ -444,12 +575,12 @@ export default async function StockMarketPastResults() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
+      <section className="py-12 sm:py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 sm:mb-8 text-center">
             What Our Clients Say
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {[
               {
                 name: "Rajesh Kumar",
@@ -475,13 +606,13 @@ export default async function StockMarketPastResults() {
             ].map((testimonial, index) => (
               <div
                 key={index}
-                className="bg-white border border-gray-200 rounded-xl shadow-sm p-8"
+                className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 sm:p-8"
               >
                 <div className="flex items-center gap-1 mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <svg
                       key={i}
-                      className="w-5 h-5 text-yellow-400"
+                      className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -489,14 +620,16 @@ export default async function StockMarketPastResults() {
                     </svg>
                   ))}
                 </div>
-                <p className="text-gray-600 mb-4 italic">
+                <p className="text-gray-600 mb-4 italic text-sm sm:text-base">
                   &quot;{testimonial.comment}&quot;
                 </p>
                 <div>
-                  <p className="font-semibold text-gray-800">
+                  <p className="font-semibold text-gray-800 text-sm sm:text-base">
                     {testimonial.name}
                   </p>
-                  <p className="text-sm text-gray-500">{testimonial.role}</p>
+                  <p className="text-xs sm:text-sm text-gray-500">
+                    {testimonial.role}
+                  </p>
                 </div>
               </div>
             ))}
@@ -505,24 +638,24 @@ export default async function StockMarketPastResults() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-gradient-to-r from-emerald-500 to-sky-500">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">
+      <section className="py-12 sm:py-16 bg-gradient-to-r from-emerald-500 to-sky-500">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">
             Ready to Join Our Success Story?
           </h2>
-          <p className="text-xl text-white/90 mb-8">
+          <p className="text-lg sm:text-xl text-white/90 mb-6 sm:mb-8">
             Start your profitable investment journey today
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center max-w-md sm:max-w-none mx-auto">
             <Link
               href="/stockMarket/pricing"
-              className="bg-white text-emerald-600 px-8 py-4 rounded-full font-semibold hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+              className="bg-white text-emerald-600 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-sm sm:text-base"
             >
               View Pricing Plans
             </Link>
             <Link
               href="/contact"
-              className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white/10 hover:-translate-y-1 transition-all duration-300"
+              className="bg-transparent border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 text-sm sm:text-base"
             >
               Contact Us
             </Link>

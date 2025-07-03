@@ -1,4 +1,6 @@
+import FreeTrialButton from "@/components/stockMarket/free-trail-button";
 import StockNavbar from "@/components/stock-navbar";
+import ChoosePlanButton from "@/components/stockMarket/choose-plan-button";
 
 export const metadata = {
   title: "Stock Market Pricing | Trust Growth",
@@ -8,7 +10,7 @@ export const metadata = {
     title: "Stock Market Pricing | Trust Growth",
     description:
       "Explore flexible pricing plans for Trust Growth's stock market advisory services. Choose the best plan for your investment needs and start your free trial today!",
-    url: "https://trustgrowth.com/stockMarket/pricing",
+    url: "https://trustgrowth.in/stockMarket/pricing",
     siteName: "Trust Growth",
     images: [
       {
@@ -35,31 +37,30 @@ export default function StockMarketPricing() {
   return (
     <div>
       <StockNavbar />
-
       {/* Free Trial Banner */}
-      <section className="py-8 bg-gradient-to-r from-emerald-500 to-sky-500">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-white">
-            <div className="flex items-center gap-4">
-              <div className="text-4xl">🎁</div>
+      <section className="py-4 sm:py-6 md:py-8 bg-gradient-to-r from-emerald-500 to-sky-500">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 text-white text-center sm:text-left">
+            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+              <div className="text-2xl sm:text-3xl md:text-4xl">🎁</div>
               <div>
-                <h3 className="text-xl font-bold">
+                <h3 className="text-lg sm:text-xl font-bold mb-1">
                   Start with a 45-Day Free Trial
                 </h3>
-                <p>Experience our premium services with no commitment</p>
+                <p className="text-sm sm:text-base">
+                  Experience our premium services with no commitment
+                </p>
               </div>
             </div>
-            <button className="bg-white text-emerald-600 px-8 py-3 rounded-full font-semibold hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-              Start Free Trial
-            </button>
+            <FreeTrialButton />
           </div>
         </div>
       </section>
 
       {/* Pricing Cards */}
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-8">
+      <section className="py-8 sm:py-12 md:py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {[
               {
                 name: "Basic",
@@ -68,13 +69,13 @@ export default function StockMarketPricing() {
                 description:
                   "Perfect for beginners starting their investment journey",
                 features: [
-                  "5 Intraday calls per day",
                   "Basic market analysis",
                   "WhatsApp support",
                   "Weekly market outlook",
                   "Risk management tips",
+                  "Investment tips in Equity Market",
+                  "Portfolio review",
                 ],
-                popular: false,
                 color: "from-blue-500 to-blue-600",
               },
               {
@@ -83,15 +84,13 @@ export default function StockMarketPricing() {
                 period: "/month",
                 description: "Most popular plan for serious investors",
                 features: [
-                  "10 Intraday calls per day",
+                  "All Basic Plan Benefits",
                   "3 Swing calls per week",
                   "Detailed technical analysis",
                   "Priority WhatsApp support",
                   "Daily market outlook",
-                  "Portfolio review",
-                  "Live market sessions",
+                  "Portfolio Management",
                 ],
-                popular: true,
                 color: "from-emerald-500 to-sky-500",
               },
               {
@@ -100,57 +99,45 @@ export default function StockMarketPricing() {
                 period: "/month",
                 description: "Complete solution for professional traders",
                 features: [
-                  "Unlimited intraday calls",
-                  "5 Swing calls per week",
+                  "All Preimum Plan Benefits",
                   "2 Investment calls per month",
                   "Advanced technical analysis",
                   "Dedicated relationship manager",
                   "Daily market outlook",
-                  "Portfolio management",
-                  "Live trading sessions",
                   "One-on-one consultation",
                 ],
-                popular: false,
                 color: "from-purple-500 to-purple-600",
               },
             ].map((plan, index) => (
               <div
                 key={index}
-                className={`relative bg-white border border-gray-200 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden ${
-                  plan.popular ? "ring-2 ring-emerald-500 scale-105" : ""
-                }`}
+                className="relative bg-white border border-gray-200 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden"
               >
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-gradient-to-r from-emerald-500 to-sky-500 text-white px-6 py-2 rounded-full text-sm font-medium">
-                      Most Popular
-                    </span>
-                  </div>
-                )}
-
                 <div className={`h-2 bg-gradient-to-r ${plan.color}`}></div>
-                <div className="p-8">
-                  <div className="text-center mb-8">
-                    <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                <div className="p-4 sm:p-6 md:p-8 flex flex-col h-full">
+                  <div className="text-center mb-6 sm:mb-8">
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
                       {plan.name}
                     </h3>
-                    <p className="text-gray-600 mb-4 h-12">
+                    <p className="text-sm sm:text-base text-gray-600 mb-4 min-h-[2.5rem] sm:min-h-[3rem]">
                       {plan.description}
                     </p>
                     <div className="flex items-baseline justify-center gap-1">
-                      <span className="text-4xl font-bold text-gray-800">
+                      <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">
                         {plan.price}
                       </span>
-                      <span className="text-gray-600">{plan.period}</span>
+                      <span className="text-sm sm:text-base text-gray-600">
+                        {plan.period}
+                      </span>
                     </div>
                   </div>
 
-                  <ul className="space-y-4 mb-8">
+                  <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 flex-grow">
                     {plan.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center gap-3">
-                        <div className="w-5 h-5 bg-emerald-100 rounded-full flex items-center justify-center">
+                      <li key={idx} className="flex items-start gap-3">
+                        <div className="w-4 h-4 sm:w-5 sm:h-5 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                           <svg
-                            className="w-3 h-3 text-emerald-600"
+                            className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-emerald-600"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -161,16 +148,14 @@ export default function StockMarketPricing() {
                             />
                           </svg>
                         </div>
-                        <span className="text-gray-700">{feature}</span>
+                        <span className="text-sm sm:text-base text-gray-700">
+                          {feature}
+                        </span>
                       </li>
                     ))}
                   </ul>
 
-                  <button
-                    className={`w-full bg-gradient-to-r ${plan.color} text-white py-4 rounded-xl font-semibold hover:shadow-lg hover:-translate-y-1 transition-all duration-300`}
-                  >
-                    Choose {plan.name}
-                  </button>
+                  <ChoosePlanButton plan={plan} />
                 </div>
               </div>
             ))}
@@ -179,12 +164,12 @@ export default function StockMarketPricing() {
       </section>
 
       {/* Additional Benefits */}
-      <section className="py-16 bg-gradient-to-br from-emerald-50 to-sky-50">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
+      <section className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-emerald-50 to-sky-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 sm:mb-8 text-center">
             What&apos;s Included in All Plans
           </h2>
-          <div className="grid md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
             {[
               {
                 icon: "🔒",
@@ -193,8 +178,8 @@ export default function StockMarketPricing() {
               },
               {
                 icon: "📱",
-                title: "Mobile App",
-                description: "iOS & Android apps",
+                title: "Mobile App Support",
+                description: "Whatsapp, telegram, etc",
               },
               {
                 icon: "🎯",
@@ -209,13 +194,17 @@ export default function StockMarketPricing() {
             ].map((benefit, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl shadow-sm p-6 text-center"
+                className="bg-white rounded-xl shadow-sm p-4 sm:p-6 text-center"
               >
-                <div className="text-3xl mb-3">{benefit.icon}</div>
-                <h3 className="font-semibold text-gray-800 mb-2">
+                <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">
+                  {benefit.icon}
+                </div>
+                <h3 className="font-semibold text-gray-800 mb-1 sm:mb-2 text-sm sm:text-base">
                   {benefit.title}
                 </h3>
-                <p className="text-sm text-gray-600">{benefit.description}</p>
+                <p className="text-xs sm:text-sm text-gray-600">
+                  {benefit.description}
+                </p>
               </div>
             ))}
           </div>
@@ -223,12 +212,12 @@ export default function StockMarketPricing() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
+      <section className="py-8 sm:py-12 md:py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 sm:mb-8 text-center">
             What Our Clients Say
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {[
               {
                 quote:
@@ -251,22 +240,26 @@ export default function StockMarketPricing() {
             ].map((testimonial, index) => (
               <div
                 key={index}
-                className="bg-gradient-to-br from-emerald-50 to-sky-50 rounded-xl shadow-md p-8 relative"
+                className="bg-gradient-to-br from-emerald-50 to-sky-50 rounded-xl shadow-md p-6 sm:p-8 relative"
               >
                 <svg
-                  className="absolute top-6 left-6 w-8 h-8 text-white/20"
+                  className="absolute top-4 sm:top-6 left-4 sm:left-6 w-6 h-6 sm:w-8 sm:h-8 text-emerald-200"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path d="M11.906 14.809q0 1.488-.707 2.66-.707 1.171-1.939 1.954-1.232.783-2.738.783-1.506 0-2.738-.783-1.232-.783-1.939-1.954-.707-1.171-.707-2.66 0-1.895.969-3.238.97-1.343 2.868-2.008l.794-1.229q-1.278.431-2.274 1.127-.996.696-1.742 1.638-.747.942-1.077 2.052-.33 1.11-.33 2.298 0 1.928.91 3.298 1.096 1.683 2.87 2.524 1.774.841 3.738.841 2.072 0 3.763-.996 1.691-.996 2.868-2.671L11.906 14.809zm10.519 0q0 1.488-.707 2.66-.707 1.171-1.939 1.954-1.232.783-2.738.783-1.506 0-2.738-.783-1.232-.783-1.939-1.954-.707-1.171-.707-2.66 0-1.895.969-3.238.97-1.343 2.868-2.008l.794-1.229q-1.278.431-2.274 1.127-.996.696-1.742 1.638-.747.942-1.077 2.052-.33 1.11-.33 2.298 0 1.928.91 3.298 1.096 1.683 2.87 2.524 1.774.841 3.738.841 2.072 0 3.763-.996 1.691-.996 2.868-2.671L22.425 14.809z" />
                 </svg>
-                <p className="relative text-lg text-gray-800 mb-6 italic">
+                <p className="relative text-sm sm:text-base md:text-lg text-gray-800 mb-4 sm:mb-6 italic leading-relaxed">
                   &quot;{testimonial.quote}&quot;
                 </p>
-                <p className="font-semibold text-gray-800">
-                  {testimonial.name}
-                </p>
-                <p className="text-sm text-gray-600">{testimonial.title}</p>
+                <div>
+                  <p className="font-semibold text-gray-800 text-sm sm:text-base">
+                    {testimonial.name}
+                  </p>
+                  <p className="text-xs sm:text-sm text-gray-600">
+                    {testimonial.title}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
@@ -274,12 +267,12 @@ export default function StockMarketPricing() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 bg-gradient-to-br from-emerald-50 to-sky-50">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
+      <section className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-emerald-50 to-sky-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 sm:mb-8 text-center">
             Frequently Asked Questions
           </h2>
-          <div className="space-y-4 max-w-3xl mx-auto">
+          <div className="space-y-3 sm:space-y-4 max-w-3xl mx-auto">
             {[
               {
                 question: "What kind of calls do you provide?",
@@ -309,15 +302,15 @@ export default function StockMarketPricing() {
             ].map((faq, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl shadow-sm p-6"
+                className="bg-white rounded-xl shadow-sm p-4 sm:p-6"
                 tabIndex={0}
               >
                 <details className="group">
-                  <summary className="flex justify-between items-center font-semibold text-gray-800 cursor-pointer">
-                    {faq.question}
-                    <span className="transition group-open:rotate-180">
+                  <summary className="flex justify-between items-center font-semibold text-gray-800 cursor-pointer text-sm sm:text-base">
+                    <span className="pr-4">{faq.question}</span>
+                    <span className="transition group-open:rotate-180 flex-shrink-0">
                       <svg
-                        className="w-5 h-5"
+                        className="w-4 h-4 sm:w-5 sm:h-5"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -331,7 +324,9 @@ export default function StockMarketPricing() {
                       </svg>
                     </span>
                   </summary>
-                  <p className="text-gray-600 mt-4">{faq.answer}</p>
+                  <p className="text-gray-600 mt-3 sm:mt-4 text-sm sm:text-base leading-relaxed">
+                    {faq.answer}
+                  </p>
                 </details>
               </div>
             ))}

@@ -3,10 +3,25 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import RootNav from "./root/root-nav";
-import { SignedOut, UserButton, SignInButton, SignedIn } from "@clerk/nextjs";
+import {
+  SignedOut,
+  UserButton,
+  SignInButton,
+  SignedIn,
+  useAuth,
+  useClerk,
+  useUser,
+} from "@clerk/nextjs";
 
 export default function StockNavbar() {
   const pathname = usePathname();
+  const { isSignedIn } = useAuth();
+  const clerk = useClerk();
+  const { user } = useUser();
+
+  if (!user) {
+    console.log("please log in");
+  }
 
   const navItems = [
     { name: "Home", href: "/stockMarket" },
@@ -16,6 +31,19 @@ export default function StockNavbar() {
     { name: "Contact", href: "/contact" },
   ];
 
+  const handleProtectedClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    if (
+      !isSignedIn &&
+      (href === "/stockMarket/call" || href === "/stockMarket/past_result")
+    ) {
+      e.preventDefault();
+      clerk.openSignIn();
+    }
+  };
+
   return (
     <RootNav className="justify-end">
       {/* Navigation Links */}
@@ -24,6 +52,7 @@ export default function StockNavbar() {
           <Link
             key={item.name}
             href={item.href}
+            onClick={(e) => handleProtectedClick(e, item.href)}
             className={`font-medium transition-colors relative group ${
               pathname === item.href
                 ? "text-emerald-600"
@@ -49,7 +78,24 @@ export default function StockNavbar() {
         </SignInButton>
       </SignedOut>
       <SignedIn>
-        <UserButton />
+        <div className="flex items-center gap-3">
+          <div className="text-right">
+            <h2 className="text-sm font-medium text-gray-900">
+              {user && user.username}
+            </h2>
+            <p className="text-xs text-gray-500">
+              {user && user.emailAddresses[0].emailAddress}
+            </p>
+          </div>
+          <UserButton
+            appearance={{
+              elements: {
+                avatarBox:
+                  "w-8 h-8 rounded-full border-2 border-gray-200 hover:border-purple-300 transition-colors duration-200",
+              },
+            }}
+          />
+        </div>
       </SignedIn>
     </RootNav>
   );

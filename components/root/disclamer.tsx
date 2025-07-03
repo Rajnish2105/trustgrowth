@@ -1,6 +1,6 @@
 export default function Disclaimer() {
   return (
-    <div className="mx-auto px-6 font-sans text-gray-800">
+    <div className="mx-auto px-6 py-4 font-sans text-gray-800">
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">Disclaimer</h1>
       </div>
@@ -250,54 +250,6 @@ export default function Disclaimer() {
       </div>
 
       <div className="mb-4">
-        <p className="text-sm text-justify leading-relaxed text-gray-700">
-          MTF is subject to the provisions of SEBI Circular CIR/MRD/DP/54/2017
-          dated June 13, 2017 and the terms and conditions mentioned in rights
-          and obligations statement issued by Trust Growth
-        </p>
-      </div>
-
-      {/* see this mate */}
-      <div className="mb-4">
-        <p className="text-sm leading-relaxed text-gray-700">
-          Trust Growth securities Limited, I Think Techno Campus, Building - B,
-          &quot;Alpha&quot;, Office Floor 8, Near Kanjurmarg Station, Opp.
-          Crompton Greaves, Kanjurmarg (East), Mumbai 400 042 Phone: (022) 3075
-          3400 Fax: (022) 2496 5066. Compliance Officer: Murli V Karkera Email:{" "}
-          <a
-            href="mailto:complianceofficer@Trust Growthsec.com"
-            className="text-blue-600 hover:text-blue-800 underline"
-          >
-            complianceofficer@TrustGrowths.com
-          </a>{" "}
-          Phone: (022) 3045 3600. For grievance redressal contact Customer Care
-          Team Email:{" "}
-          <a
-            href="mailto:customercare@Trust Growthsec.com"
-            className="text-blue-600 hover:text-blue-800 underline"
-          >
-            customercare@Trust Growthsec.com
-          </a>{" "}
-          Phone: (022) 3901 9400. Trust Growth Securities Limited, SEBI Reg.
-          No.: NSE, BSE, MSEI, MCX: INZ000186937; AMFI Reg. No. ARN: 13549;
-          PFRDA Reg. No. POP: 11092018; IRDA Corporate Agent License No.:
-          CA0062; SEBI Research Analyst Reg. No.: INH000002475; SEBI Investment
-          Adviser Reg. No.: INA000011538; CIN - U67120MH2000PLC152193
-        </p>
-      </div>
-
-      <div className="mb-4">
-        <p className="text-sm text-justify leading-relaxed text-gray-700">
-          Corporate FD is not a Exchange traded product and all disputes related
-          to the distribution activity of Corporate FD will not have access to
-          Exchange investor redressal forum or Arbitration mechanism.
-          Involvement of Trust Growth securities is restricted to Referral only.
-          Trust Growth securities does not offer this product directly to
-          customers.
-        </p>
-      </div>
-
-      <div className="mb-4">
         <div className="border-l-4 border-blue-500 pl-4 bg-gray-300 p-3 rounded">
           <p className="text-sm font-semibold text-blue-800 mb-2">
             IPO Disclaimer:
@@ -328,92 +280,11 @@ export default function Disclaimer() {
 
       <div className="mb-4">
         <p className="text-sm text-justify leading-relaxed text-gray-700">
-          Brokerage will not exceed the SEBI prescribed limit.
-        </p>
-      </div>
-
-      <div className="mb-4">
-        <p className="text-sm leading-relaxed text-gray-700">
-          <span className="font-semibold">SGB:</span>
-          <br />
-          Bonds are not an approved product of the Exchanges and any dispute
-          related to this will not be dealt at exchange platform.
-        </p>
-      </div>
-
-      <div className="mb-4">
-        <p className="text-sm leading-relaxed text-gray-700">
-          <span className="font-semibold">Basket:</span>
-          <br />
-          Basket Investing is not an Exchange traded product and all disputes
-          related to the distribution activity of Basket Investing will not have
-          access to Exchange investor redressal forum or Arbitration mechanism.
-        </p>
-      </div>
-
-      <div className="mb-4">
-        <p className="text-sm text-justify leading-relaxed text-gray-700">
           Please note that Trust Growth Securities has a proprietary trading
           desk. This desk maintains an arm&apos;s length distance with the
           Research team and all its activities are segregated from Research
           activities. The proprietary desk operates independently, potentially
           leading to investment decisions that may deviate from research views.
-        </p>
-      </div>
-
-      <div className="mb-4">
-        <p className="text-sm leading-relaxed text-gray-700">
-          <span className="font-semibold">PMS/AIF</span>
-          <br />
-          Trust Growth Securities is acting as distributor for portfolio
-          Management secrives which are offered by SEBI registered Portfolio
-          Managers. The information is only for consumption by the client and
-          such material should not be redistributed.
-        </p>
-      </div>
-
-      <div className="mb-4">
-        <p className="text-sm leading-relaxed text-gray-700">
-          <span className="font-semibold">
-            Trust Growth Bank Current Account, Savings Account, Fixed Deposits,
-            Credit Cards, Loans
-          </span>
-          <br />
-          Trust Growth is Direct Selling Associate to Trust Growth Bank Ltd. for
-          acquiring customers. Trust Growth Bank Ltd. has sole and absolute
-          discretion to offer products & services. These are not exchange traded
-          product and disputes would not have access to exchange investor
-          redressal forum or arbitration mechanism. T&C apply:{" "}
-          <a
-            href="https://www.Trust Growthbank.com/personal/useful-links/terms-and-conditions"
-            className="text-blue-600 hover:text-blue-800 underline break-all"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            https://www.Trust
-            Growthbank.com/personal/useful-links/terms-and-conditions
-          </a>
-        </p>
-      </div>
-
-      <div className="mb-4">
-        <p className="text-sm leading-relaxed text-gray-700">
-          <span className="font-semibold">Global Equity (US Equity):</span>
-          <br />
-          Involvement of Trust Growth securities is restricted to Referral only.
-          Trust Growth securities does not offer this product directly to
-          customers{" "}
-          <a
-            href="https://www.Trust Growthsec.com/globalinvesting"
-            className="text-blue-600 hover:text-blue-800 underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            https://www.Trust Growthsec.com/globalinvesting
-          </a>
-          . Global Investing is not a Exchange traded product and all disputes
-          related to the distribution activity of Global Investing will not have
-          access to Exchange investor redressal.
         </p>
       </div>
 

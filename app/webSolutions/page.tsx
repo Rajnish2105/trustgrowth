@@ -1,4 +1,4 @@
-import Footer from "@/components/footer";
+import Footer from "@/components/root/footer";
 import LandingNavbarSkeleton from "@/components/skeleton/landing-navbar-skeleton";
 import WebSolutionsSkeleton from "@/components/skeleton/web-solution-skeleton";
 import dynamic from "next/dynamic";
@@ -22,7 +22,7 @@ export const metadata = {
     title: "Trust Growth | Website Development & Digital Solutions",
     description:
       "Discover premium website development and digital solutions with Trust Growth. We build custom, responsive, and SEO-optimized websites to help your business thrive online.",
-    url: "https://trustgrowth.com/webSolutions",
+    url: "https://trustgrowth.in/webSolutions",
     siteName: "Trust Growth",
     images: [
       {

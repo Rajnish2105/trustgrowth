@@ -15,16 +15,16 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://trustgrowth.com"),
-  title: "Trust Growth | Digital Solutions, Stock Market, Auction Bidding",
+  metadataBase: new URL("https://trustgrowth.in"),
+  title: "Trust Growth | Grow trust with us",
   description:
-    "Trust Growth offers expert-driven website development, stock market analysis, and auction bidding services. Modern, responsive, and secure digital solutions for your business.",
+    "We specialize in 'portfolio management, consultancy services market analytics, Gold Auction online bidding service, web solutions, web modification workflow, website customization' everything at one place.",
   generator: "v0.dev",
   openGraph: {
-    title: "Trust Growth | Digital Solutions, Stock Market, Auction Bidding",
+    title: "Trust Growth | Grow trust with us",
     description:
-      "Trust Growth offers expert-driven website development, stock market analysis, and auction bidding services. Modern, responsive, and secure digital solutions for your business.",
-    url: "https://trustgrowth.com/",
+      "We specialize in 'portfolio management, consultancy services market analytics, Gold Auction online bidding service, web solutions, web modification workflow, website customization' everything at one place.",
+    url: "https://trustgrowth.in/",
     siteName: "Trust Growth",
     images: [
       {
@@ -39,9 +39,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Trust Growth | Digital Solutions, Stock Market, Auction Bidding",
+    title: "Trust Growth | Grow trust with us",
     description:
-      "Trust Growth offers expert-driven website development, stock market analysis, and auction bidding services. Modern, responsive, and secure digital solutions for your business.",
+      "We specialize in 'portfolio management, consultancy services market analytics, Gold Auction online bidding service, web solutions, web modification workflow, website customization' everything at one place.",
     images: ["/images/logo.png"],
     creator: "@trustgrowth",
   },
@@ -53,20 +53,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en" className="scroll-smooth">
-        <head>
-          <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-          />
-        </head>
+    <html lang="en" className="scroll-smooth">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        />
+      </head>
+      <ClerkProvider>
         <body
-          className={`${inter.variable} ${playfair.variable} font-sans antialiased`}
+          className={`${inter.variable} ${playfair.variable} font-sans antialiased overflow-y-auto
+  [&::-webkit-scrollbar]:w-2
+  [&::-webkit-scrollbar-track]:bg-gray-100
+  [&::-webkit-scrollbar-thumb]:bg-gray-300
+  dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+  dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500`}
         >
           {children}
         </body>
-      </html>
-    </ClerkProvider>
+      </ClerkProvider>
+    </html>
   );
 }

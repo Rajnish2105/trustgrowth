@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 import RootNav from "../root/root-nav";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+  useUser,
+} from "@clerk/nextjs";
 
 interface LandingNavbarProps {
   currentSlide?: number;
@@ -29,6 +35,12 @@ export default function LandingNavbar({
     },
   ],
 }: LandingNavbarProps) {
+  const { user } = useUser();
+
+  if (!user) {
+    console.log("plesae log in");
+  }
+
   return (
     <RootNav className="justify-between">
       {/* Navigation Links */}
@@ -64,7 +76,24 @@ export default function LandingNavbar({
         </SignInButton>
       </SignedOut>
       <SignedIn>
-        <UserButton />
+        <div className="flex items-center gap-3">
+          <div className="text-right">
+            <h2 className="text-sm font-medium text-gray-900">
+              {user && user.username}
+            </h2>
+            <p className="text-xs text-gray-500">
+              {user && user.emailAddresses[0].emailAddress}
+            </p>
+          </div>
+          <UserButton
+            appearance={{
+              elements: {
+                avatarBox:
+                  "w-8 h-8 rounded-full border-2 border-gray-200 hover:border-purple-300 transition-colors duration-200",
+              },
+            }}
+          />
+        </div>
       </SignedIn>
 
       {/* Auth Dialog will be rendered by the parent component (e.g., layout.tsx) */}

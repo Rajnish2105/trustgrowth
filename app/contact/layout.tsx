@@ -7,7 +7,7 @@ export const metadata = {
     title: "Contact Us | Trust Growth",
     description:
       "Get in touch with Trust Growth for expert support in web development, stock market insights, and auction bidding. Reach us by phone, email, or visit our office. We're here to help you grow.",
-    url: "https://trustgrowth.com/contact",
+    url: "https://trustgrowth.in/contact",
     siteName: "Trust Growth",
     images: [
       {

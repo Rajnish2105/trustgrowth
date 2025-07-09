@@ -1,7 +1,6 @@
 import FreeTrialButton from "@/components/stockMarket/free-trail-button";
 import StockNavbar from "@/components/stock-navbar";
 import ChoosePlanButton from "@/components/stockMarket/choose-plan-button";
-
 export const metadata = {
   title: "Stock Market Pricing | Trust Growth",
   description:
@@ -33,7 +32,7 @@ export const metadata = {
   },
 };
 
-export default function StockMarketPricing() {
+export default async function StockMarketPricing() {
   return (
     <div>
       <StockNavbar />

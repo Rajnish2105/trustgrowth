@@ -2,13 +2,10 @@
 
 import Link from "next/link";
 import RootNav from "../root/root-nav";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  UserButton,
-  useUser,
-} from "@clerk/nextjs";
+import AuthDialog from "../auth-modal/auth-dialog";
+import { useState } from "react";
+import { useSession } from "next-auth/react";
+import multiavatar from "@multiavatar/multiavatar";
 
 interface LandingNavbarProps {
   currentSlide?: number;
@@ -35,11 +32,15 @@ export default function LandingNavbar({
     },
   ],
 }: LandingNavbarProps) {
-  const { user } = useUser();
+  const [authOpen, setAuthOpen] = useState(false);
+  const { data: session, status } = useSession();
 
-  if (!user) {
-    console.log("plesae log in");
-  }
+  const user = session?.user;
+
+  const svgCode = multiavatar(user?.username || "user");
+
+  // Example: Replace with your actual user fetching logic
+  // useEffect(() => { ...fetch user and setUser... }, []);
 
   return (
     <RootNav className="justify-between">
@@ -67,36 +68,47 @@ export default function LandingNavbar({
         ))}
       </div>
 
-      {/* Sign In Button */}
-      <SignedOut>
-        <SignInButton mode="modal">
-          <button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-full font-medium hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 mt-4 md:mt-0">
+      {/* Sign In Button / User Info */}
+      {status == "loading" ? (
+        <div className="flex items-center justify-center min-h-screen bg-white">
+          <div className="animate-spin rounded-full h-8 w-8 border-4 border-gray-300 border-t-gray-900"></div>
+        </div>
+      ) : !user ? (
+        <>
+          <button
+            className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-full font-medium hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 mt-4 md:mt-0"
+            onClick={() => setAuthOpen(true)}
+          >
             Sign in
           </button>
-        </SignInButton>
-      </SignedOut>
-      <SignedIn>
+          <AuthDialog isOpen={authOpen} onClose={() => setAuthOpen(false)} />
+        </>
+      ) : (
         <div className="flex items-center gap-3">
           <div className="text-right">
             <h2 className="text-sm font-medium text-gray-900">
-              {user && user.username}
+              {user.username}
             </h2>
-            <p className="text-xs text-gray-500">
-              {user && user.emailAddresses[0].emailAddress}
-            </p>
+            <p className="text-xs text-gray-500">{user.email}</p>
           </div>
-          <UserButton
-            appearance={{
-              elements: {
-                avatarBox:
-                  "w-8 h-8 rounded-full border-2 border-gray-200 hover:border-purple-300 transition-colors duration-200",
-              },
-            }}
-          />
+          {/* You can add a user avatar or menu here if needed */}
+          <Link href={`/${user.username}`}>
+            <span
+              className="rounded-full overflow-hidden w-[40px] hover:w-[45px] transition-all duration-300 ease-in-out"
+              style={{
+                height: 40,
+                display: "inline-block",
+                boxShadow: `
+                0 0 10px rgba(59, 130, 246, 0.4),
+                0 0 20px rgba(59, 130, 246, 0.3),
+                0 0 30px rgba(59, 130, 246, 0.2)
+              `,
+              }}
+              dangerouslySetInnerHTML={{ __html: svgCode }}
+            />
+          </Link>
         </div>
-      </SignedIn>
-
-      {/* Auth Dialog will be rendered by the parent component (e.g., layout.tsx) */}
+      )}
     </RootNav>
   );
 }

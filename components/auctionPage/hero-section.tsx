@@ -49,8 +49,8 @@ export default function HeroSection() {
             <p className="text-base md:text-lg lg:text-xl text-gray-700 mb-6 md:mb-8 leading-relaxed">
               Professional freelance gold auction bidding services with highly
               trained speed typists. We specialize in securing auction packets
-              on <strong>Procure Tiger</strong> and{" "}
-              <strong>Gold Samridhi (Samil)</strong> platforms.
+              on <strong>Procure Tiger</strong> and <strong>Gold Samil</strong>{" "}
+              platforms.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mb-6 md:mb-8">

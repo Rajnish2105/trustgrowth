@@ -1,6 +1,6 @@
 import Link from "next/link";
-
 import StockNavbar from "@/components/stock-navbar";
+import { db } from "@/lib/db";
 
 export const metadata = {
   title: "Stock Market Past Results | Trust Growth",
@@ -34,6 +34,8 @@ export const metadata = {
 };
 
 export default async function StockMarketPastResults() {
+  const OldCalls = await GetData();
+
   return (
     <div>
       <StockNavbar />
@@ -115,7 +117,7 @@ export default async function StockMarketPastResults() {
 
           {/* Mobile Card Layout */}
           <div className="block sm:hidden space-y-4">
-            {[
+            {/* {[
               {
                 stock: "RELIANCE",
                 action: "BUY",
@@ -170,7 +172,8 @@ export default async function StockMarketPastResults() {
                 status: "Profit",
                 date: "10 Dec",
               },
-            ].map((result, index) => (
+            ] */}
+            {OldCalls.map((result, index) => (
               <div
                 key={index}
                 className="bg-white rounded-lg shadow-sm border border-gray-200 p-4"
@@ -180,7 +183,13 @@ export default async function StockMarketPastResults() {
                     <h3 className="font-semibold text-gray-800 text-lg">
                       {result.stock}
                     </h3>
-                    <p className="text-sm text-gray-500">{result.date}</p>
+                    <p className="text-sm text-gray-500">
+                      {new Date(result.createdAt).toLocaleDateString("en-US", {
+                        month: "short", // or "long" for "December"
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </p>
                   </div>
                   <div className="flex flex-col items-end gap-2">
                     <span
@@ -259,7 +268,7 @@ export default async function StockMarketPastResults() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {[
+                  {/* {[
                     {
                       stock: "RELIANCE",
                       action: "BUY",
@@ -332,7 +341,8 @@ export default async function StockMarketPastResults() {
                       status: "Profit",
                       date: "8 Dec",
                     },
-                  ].map((result, index) => (
+                  ] */}
+                  {OldCalls.map((result, index) => (
                     <tr
                       key={index}
                       className="hover:bg-gray-50 transition-colors"
@@ -380,7 +390,14 @@ export default async function StockMarketPastResults() {
                         </span>
                       </td>
                       <td className="px-4 lg:px-6 py-3 lg:py-4 text-gray-600 text-sm lg:text-base">
-                        {result.date}
+                        {new Date(result.createdAt).toLocaleDateString(
+                          "en-US",
+                          {
+                            month: "short", // or "long" for "December"
+                            day: "numeric",
+                            year: "numeric",
+                          }
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -664,4 +681,9 @@ export default async function StockMarketPastResults() {
       </section>
     </div>
   );
+}
+
+async function GetData() {
+  const data = await db.calls.findMany();
+  return data;
 }

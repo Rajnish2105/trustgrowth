@@ -2,7 +2,8 @@ import type React from "react";
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
+import SessionWrapper from "../components/SessionWrapper";
+import AdminPageLink from "@/components/adminPanel/admin-link";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -60,14 +61,15 @@ export default function RootLayout({
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         />
       </head>
-      <ClerkProvider telemetry={false}>
+      <SessionWrapper>
         <body
           className={`${inter.variable} ${playfair.variable} font-sans antialiased overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700
   dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500`}
         >
           {children}
+          <AdminPageLink />
         </body>
-      </ClerkProvider>
+      </SessionWrapper>
     </html>
   );
 }

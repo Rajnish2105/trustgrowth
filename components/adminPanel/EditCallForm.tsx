@@ -472,6 +472,8 @@ export function EditCallForm({ callId }: EditCallFormProps) {
                             <Image
                               src={formData.imageUrl || "/placeholder.svg"}
                               alt="Current call image"
+                              width={400}
+                              height={200}
                               className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.02]"
                               onError={(e) => {
                                 e.currentTarget.style.display = "none"

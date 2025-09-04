@@ -1,5 +1,5 @@
 "use client"
-import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogClose, DialogTitle } from "@/components/ui/dialog"
 import { X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
@@ -31,10 +31,13 @@ export function ImageModal({ open, onOpenChange, src, alt = "Image preview", cla
           className,
         )}
       >
+        <DialogTitle className="sr-only">{alt}</DialogTitle>
         <div className="relative max-w-[95vw] max-h-[95vh] flex items-center justify-center">
           <Image
             src={src || "/placeholder.svg"}
             alt={alt}
+            width={800}
+            height={600}
             className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
           />
           <DialogClose asChild>

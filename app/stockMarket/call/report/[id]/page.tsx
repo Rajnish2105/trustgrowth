@@ -309,6 +309,8 @@ export default function CallDetailsPage() {
                     <Image
                       src={call.imageUrl}
                       alt={`${call.stock} call chart`}
+                      width={400}
+                      height={192}
                       className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
                       onError={(e) => {
                         e.currentTarget.style.display = "none";

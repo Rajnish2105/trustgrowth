@@ -1,5 +1,4 @@
 import FreeTrialButton from "@/components/stockMarket/free-trail-button";
-import StockNavbar from "@/components/stock-navbar";
 import ChoosePlanButton from "@/components/stockMarket/choose-plan-button";
 export const metadata = {
   title: "Stock Market Pricing | Trust Growth",
@@ -35,7 +34,6 @@ export const metadata = {
 export default async function StockMarketPricing() {
   return (
     <div>
-      <StockNavbar />
       {/* Free Trial Banner */}
       <section className="py-4 sm:py-6 md:py-8 bg-gradient-to-r from-emerald-500 to-sky-500">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">

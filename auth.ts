@@ -52,6 +52,7 @@ export const { handlers, auth } = NextAuth({
           select: {
             id: true,
             role: true,
+            plan: true,
           },
         });
         token.provider = "google";
@@ -59,13 +60,16 @@ export const { handlers, auth } = NextAuth({
         token.email = profile?.email;
         token.username = profile?.name;
         token.role = googleuser?.role;
+        token.plan = googleuser?.plan as string | undefined;
         return token;
       } else if (user) {
         token.id = user.id as string;
+        token.sub = (user.id as string) ?? token.sub;
         token.role = user.role as string;
         token.username = user.username as string;
         token.email = user.email as string;
         token.provider = user.provider as string;
+        token.plan = user.plan as string;
         return token;
       }
       return token;
@@ -79,6 +83,7 @@ export const { handlers, auth } = NextAuth({
           provider: token.provider,
           emailVerified: null,
           role: token.role as string,
+          plan: token.plan as string | undefined,
         };
         return session;
       } else {
@@ -89,6 +94,7 @@ export const { handlers, auth } = NextAuth({
           provider: token.provider as string,
           emailVerified: null,
           role: token.role as string,
+          plan: token.plan as string | undefined,
         };
         return session;
       }

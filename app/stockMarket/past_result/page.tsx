@@ -1,15 +1,19 @@
 import Link from "next/link";
-import StockNavbar from "@/components/stock-navbar";
 import { db } from "@/lib/db";
+import StockNavbar from "@/components/stock-navbar";
+
+// Force dynamic rendering to prevent caching
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export const metadata = {
-  title: "Stock Market Past Results | Trust Growth",
+  title: "Past Results | Trust Growth",
   description:
-    "See the proven track record and past results of Trust Growth's stock market calls. Transparent performance metrics and consistent gains for our clients.",
+    "View our track record of successful stock market calls and past results. See how our expert analysis has delivered consistent returns for investors.",
   openGraph: {
-    title: "Stock Market Past Results | Trust Growth",
+    title: "Past Results | Trust Growth",
     description:
-      "See the proven track record and past results of Trust Growth's stock market calls. Transparent performance metrics and consistent gains for our clients.",
+      "View our track record of successful stock market calls and past results. See how our expert analysis has delivered consistent returns for investors.",
     url: "https://trustgrowth.in/stockMarket/past_result",
     siteName: "Trust Growth",
     images: [
@@ -25,9 +29,9 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Stock Market Past Results | Trust Growth",
+    title: "Past Results | Trust Growth",
     description:
-      "See the proven track record and past results of Trust Growth's stock market calls. Transparent performance metrics and consistent gains for our clients.",
+      "View our track record of successful stock market calls and past results. See how our expert analysis has delivered consistent returns for investors.",
     images: ["/images/logo.png"],
     creator: "@trustgrowth",
   },
@@ -684,6 +688,24 @@ export default async function StockMarketPastResults() {
 }
 
 async function GetData() {
-  const data = await db.calls.findMany();
-  return data;
+  const data = await db.calls.findMany({
+    where: {
+      action: "SELL",
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  // Transform the data to match the expected structure for the UI
+  return data.map((call) => ({
+    id: call.id,
+    stock: call.stock,
+    action: call.action,
+    entry: call.entry.toString(),
+    exit: call.exit || "0",
+    return: call.return || "0%",
+    status: call.return && call.return.includes("+") ? "Profit" : "Loss",
+    createdAt: call.createdAt,
+  }));
 }

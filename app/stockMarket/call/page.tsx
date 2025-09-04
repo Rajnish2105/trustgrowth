@@ -1,5 +1,5 @@
 import Link from "next/link";
-import StockNavbar from "@/components/stock-navbar";
+import { db } from "@/lib/db";
 
 export const metadata = {
   title: "Stock Market Calls | Trust Growth",
@@ -33,9 +33,16 @@ export const metadata = {
 };
 
 export default async function StockMarketCall() {
+  const liveCalls = await db.calls.findMany({
+    where: {
+      NOT: { action: "SELL" },
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
+  });
   return (
     <div>
-      <StockNavbar />
       {/* Header */}
       <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-white to-emerald-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -62,203 +69,174 @@ export default async function StockMarketCall() {
             Today&apos;s Live Calls
           </h2>
           <div className="space-y-4 sm:space-y-6">
-            {[
-              {
-                stock: "RELIANCE",
-                action: "BUY",
-                price: "2,456.75",
-                target: "2,580.00",
-                stopLoss: "2,380.00",
-                time: "10:30 AM",
-                status: "Active",
-                reason: "Strong technical breakout with increasing volume",
-              },
-              {
-                stock: "TCS",
-                action: "BUY",
-                price: "3,234.50",
-                target: "3,400.00",
-                stopLoss: "3,150.00",
-                time: "11:15 AM",
-                status: "Target Hit",
-                reason: "Positive Q2 results and bullish sector outlook",
-              },
-              {
-                stock: "HDFC BANK",
-                action: "SELL",
-                price: "1,567.25",
-                target: "1,480.00",
-                stopLoss: "1,620.00",
-                time: "02:45 PM",
-                status: "Active",
-                reason: "Bearish pattern formation with resistance at 1,600",
-              },
-            ].map((call, index) => (
-              <div
-                key={index}
-                className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
-              >
-                <div
-                  className={`h-1 ${
-                    call.action === "BUY"
-                      ? "bg-gradient-to-r from-emerald-500 to-emerald-600"
-                      : "bg-gradient-to-r from-red-500 to-red-600"
-                  }`}
-                ></div>
-                <div className="p-4 sm:p-6">
-                  {/* Mobile-first layout */}
-                  <div className="space-y-4">
-                    {/* Header with action and stock */}
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={`px-2 py-1 sm:px-3 rounded-full text-xs sm:text-sm font-medium ${
-                            call.action === "BUY"
-                              ? "bg-emerald-100 text-emerald-700"
-                              : "bg-red-100 text-red-700"
-                          }`}
-                        >
-                          {call.action}
-                        </div>
-                        <div>
-                          <h3 className="text-base sm:text-lg font-semibold text-gray-800">
-                            {call.stock}
-                          </h3>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-xs sm:text-sm text-gray-500">
-                          Entry
-                        </p>
-                        <p className="text-sm sm:text-base font-medium text-gray-800">
-                          ₹{call.price}
-                        </p>
-                      </div>
-                    </div>
+            {liveCalls.map((c, index) => {
+              const entry = Number(c.entry ?? 0);
+              const stopLoss = Number(c.stoploss ?? 0);
+              const targetPrice = entry * (1 + Number(c.minTarget ?? 0) / 100);
+              const createdTime = new Date(c.createdAt).toLocaleString(
+                "en-IN",
+                {
+                  month: "short",
+                  day: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }
+              );
+              const updatedTime = new Date(c.updatedAt).toLocaleString(
+                "en-IN",
+                {
+                  month: "short",
+                  day: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }
+              );
+              const status = c.exit ? "Closed" : "Active";
+              const hasReturn = c.return && c.return !== "0";
 
-                    {/* Stats grid - optimized for mobile */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-                      <div className="bg-gray-50 rounded-lg p-3 text-center">
-                        <p className="text-xs text-gray-500 mb-1">Target</p>
-                        <p className="text-sm font-medium text-emerald-600">
-                          ₹{call.target}
-                        </p>
-                      </div>
-                      <div className="bg-gray-50 rounded-lg p-3 text-center">
-                        <p className="text-xs text-gray-500 mb-1">Stop Loss</p>
-                        <p className="text-sm font-medium text-red-600">
-                          ₹{call.stopLoss}
-                        </p>
-                      </div>
-                      <div className="bg-gray-50 rounded-lg p-3 text-center">
-                        <p className="text-xs text-gray-500 mb-1">Time</p>
-                        <p className="text-sm font-medium text-gray-800">
-                          {call.time}
-                        </p>
-                      </div>
-                      <div className="bg-gray-50 rounded-lg p-3 text-center">
-                        <p className="text-xs text-gray-500 mb-1">Status</p>
-                        <p
-                          className={`text-sm font-medium ${
-                            call.status === "Target Hit"
-                              ? "text-emerald-600"
-                              : "text-blue-600"
-                          }`}
-                        >
-                          {call.status}
-                        </p>
-                      </div>
-                    </div>
+              const getActionColor = (action: string) => {
+                switch (action) {
+                  case "BUY":
+                    return "bg-emerald-100 text-emerald-700";
+                  case "SELL":
+                    return "bg-red-100 text-red-700";
+                  case "WATCH":
+                    return "bg-blue-100 text-blue-700";
+                  case "HOLD":
+                    return "bg-yellow-100 text-yellow-700";
+                  default:
+                    return "bg-gray-100 text-gray-700";
+                }
+              };
 
-                    {/* Reason section */}
-                    <div className="pt-3 border-t border-gray-100">
-                      <p className="text-xs sm:text-sm text-gray-600">
-                        <span className="font-medium">Reason:</span>{" "}
-                        {call.reason}
-                      </p>
+              const getActionGradient = (action: string) => {
+                switch (action) {
+                  case "BUY":
+                    return "bg-gradient-to-r from-emerald-500 to-emerald-600";
+                  case "SELL":
+                    return "bg-gradient-to-r from-red-500 to-red-600";
+                  case "WATCH":
+                    return "bg-gradient-to-r from-blue-500 to-blue-600";
+                  case "HOLD":
+                    return "bg-gradient-to-r from-yellow-500 to-yellow-600";
+                  default:
+                    return "bg-gradient-to-r from-gray-500 to-gray-600";
+                }
+              };
+
+              const getStatusPillClass = (statusValue: string) => {
+                const base = "px-2 py-1 rounded-full text-xs font-medium";
+                return statusValue === "Closed"
+                  ? `${base} bg-emerald-100 text-emerald-700`
+                  : `${base} bg-blue-100 text-blue-700`;
+              };
+
+              return (
+                <Link
+                  href={`call/report/${c.id}`}
+                  key={index}
+                  className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
+                >
+                  <div className={`h-1 ${getActionGradient(c.action)}`}></div>
+                  <div className="p-4 sm:p-6">
+                    {/* Mobile-first layout */}
+                    <div className="space-y-4">
+                      {/* Header with action and stock */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div
+                            className={`px-2 py-1 sm:px-3 rounded-full text-xs sm:text-sm font-medium ${getActionColor(
+                              c.action
+                            )}`}
+                          >
+                            {c.action}
+                          </div>
+                          <div>
+                            <h3 className="text-base sm:text-lg font-semibold text-gray-800">
+                              {c.stock}
+                            </h3>
+                            <p className="text-xs text-gray-500">{c.symbol}</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-xs sm:text-sm text-gray-500">
+                            Entry
+                          </p>
+                          <p className="text-sm sm:text-base font-medium text-gray-800">
+                            ₹{entry.toFixed(2)}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Stats grid - optimized for mobile */}
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                        <div className="bg-gray-50 rounded-lg p-3 text-center">
+                          <p className="text-xs text-gray-500 mb-1">Target</p>
+                          <p className="text-sm font-medium text-emerald-600">
+                            ₹{targetPrice.toFixed(2)}
+                          </p>
+                        </div>
+                        <div className="bg-gray-50 rounded-lg p-3 text-center">
+                          <p className="text-xs text-gray-500 mb-1">
+                            Stop Loss
+                          </p>
+                          <p className="text-sm font-medium text-red-600">
+                            ₹{stopLoss.toFixed(2)}
+                          </p>
+                        </div>
+                        <div className="bg-gray-50 rounded-lg p-3 text-center">
+                          <p className="text-xs text-gray-500 mb-1">Created</p>
+                          <p className="text-sm font-medium text-gray-800">
+                            {createdTime}
+                          </p>
+                        </div>
+                        <div className="bg-gray-50 rounded-lg p-3 text-center">
+                          <p className="text-xs text-gray-500 mb-1">Updated</p>
+                          <p className="text-sm font-medium text-gray-800">
+                            {updatedTime}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Return display section when available */}
+                      {hasReturn && (
+                        <div className="bg-emerald-50 rounded-lg p-3 text-center">
+                          <p className="text-xs text-gray-500 mb-1">Return</p>
+                          <p className="text-sm font-medium text-emerald-600">
+                            {c.return}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Exit price display when available */}
+                      {c.exit && (
+                        <div className="bg-blue-50 rounded-lg p-3 text-center">
+                          <p className="text-xs text-gray-500 mb-1">
+                            Exit Price
+                          </p>
+                          <p className="text-sm font-medium text-blue-600">
+                            ₹{c.exit}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Reason section */}
+                      <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
+                        <p className="text-xs sm:text-sm text-gray-600">
+                          <span className="font-medium">Reason:</span> {"-"}
+                        </p>
+                        <div className="text-xs sm:text-sm text-gray-600 flex items-center gap-2">
+                          <span className="font-medium">Status:</span>
+                          <span className={getStatusPillClass(status)}>
+                            {status}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Call Types */}
-      <section className="py-12 sm:py-16 bg-gradient-to-br from-emerald-50 to-sky-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 sm:mb-8 text-center">
-            Our Call Categories
-          </h2>
-          <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                title: "Intraday Calls",
-                description: "Quick profit opportunities for same-day trading",
-                icon: "⚡",
-                features: [
-                  "5-10 calls per day",
-                  "High accuracy",
-                  "Quick profits",
-                  "Detailed analysis",
-                ],
-                color: "from-emerald-500 to-emerald-600",
-              },
-              {
-                title: "Swing Calls",
-                description: "Medium-term positions for 3-7 days holding",
-                icon: "📈",
-                features: [
-                  "2-3 calls per week",
-                  "Higher targets",
-                  "Less monitoring",
-                  "Trend-based analysis",
-                ],
-                color: "from-sky-500 to-sky-600",
-              },
-              {
-                title: "Investment Calls",
-                description: "Long-term wealth creation opportunities",
-                icon: "💎",
-                features: [
-                  "Monthly picks",
-                  "Fundamental analysis",
-                  "Wealth building",
-                  "Research-backed selections",
-                ],
-                color: "from-emerald-500 to-sky-500",
-              },
-            ].map((type, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden"
-              >
-                <div className={`h-2 bg-gradient-to-r ${type.color}`}></div>
-                <div className="p-6 sm:p-8 text-center">
-                  <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">
-                    {type.icon}
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-3 sm:mb-4">
-                    {type.title}
-                  </h3>
-                  <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
-                    {type.description}
-                  </p>
-                  <ul className="space-y-2">
-                    {type.features.map((feature, idx) => (
-                      <li
-                        key={idx}
-                        className="flex items-center gap-2 text-xs sm:text-sm text-gray-600 justify-center"
-                      >
-                        <div className="w-2 h-2 bg-emerald-500 rounded-full flex-shrink-0"></div>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>

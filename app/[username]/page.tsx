@@ -1,16 +1,8 @@
 import { db } from "@/lib/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import multiavatar from "@multiavatar/multiavatar";
-import {
-  Table,
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, TrendingDown, FileX } from "lucide-react";
+import { User, Mail, Calendar, Shield, Crown, Clock } from "lucide-react";
 import LogoutButton from "@/components/root/logout-button";
 import RootNav from "@/components/root/root-nav";
 
@@ -23,6 +15,23 @@ export default async function UserPage({ params }: PageProps) {
   const user = await GetData(decodeURIComponent(username));
   const svgCode = multiavatar(user?.username || "user");
 
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardContent className="p-6 text-center">
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+              User Not Found
+            </h2>
+            <p className="text-gray-600">
+              The requested user profile could not be found.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <RootNav> </RootNav>
@@ -30,148 +39,168 @@ export default async function UserPage({ params }: PageProps) {
         {/* Header */}
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-900">User Profile</h1>
-          <p className="text-gray-600 mt-1">
-            View user details and trading history
-          </p>
+          <p className="text-gray-600 mt-1">Account details and information</p>
         </div>
 
-        {/* User Details */}
-        <Card className="border-0 shadow-sm bg-slate-100">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
+        {/* Main Profile Card */}
+        <Card className="border-0 shadow-lg bg-white">
+          <CardContent className="p-8">
+            <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+              {/* Avatar */}
+              <div className="flex-shrink-0">
                 <span
-                  className="rounded-full overflow-hidden"
-                  style={{ width: 70, height: 70, display: "inline-block" }}
+                  className="rounded-full overflow-hidden border-4 border-gray-100"
+                  style={{ width: 120, height: 120, display: "inline-block" }}
                   dangerouslySetInnerHTML={{ __html: svgCode }}
                 />
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900">
-                    {user?.username}
-                  </h3>
-                  <p className="text-gray-600">{user?.email}</p>
+              </div>
+
+              {/* User Info */}
+              <div className="flex-1 text-center md:text-left">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                  {user.username}
+                </h2>
+                <div className="flex flex-col space-y-3">
+                  <div className="flex items-center justify-center md:justify-start space-x-2">
+                    <Mail className="h-4 w-4 text-gray-500" />
+                    <span className="text-gray-600">{user.email}</span>
+                  </div>
+                  <div className="flex items-center justify-center md:justify-start space-x-2">
+                    <Calendar className="h-4 w-4 text-gray-500" />
+                    <span className="text-gray-600">
+                      Joined{" "}
+                      {user.createdAt.toLocaleDateString("en-US", {
+                        month: "long",
+                        year: "numeric",
+                      })}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-center md:justify-start space-x-2">
+                    <p className="text-gray-600">Plan: </p>
+                    <p className="font-bold text-green-800">{user.plan}</p>
+                  </div>
                 </div>
               </div>
-              <LogoutButton />
+
+              {/* Logout Button */}
+              <div className="flex-shrink-0">
+                <LogoutButton />
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Call History */}
-        <Card className="border-0 shadow-sm">
-          <CardHeader>
-            <CardTitle>Call History</CardTitle>
-          </CardHeader>
-          {!user?.calls || user.calls.length === 0 ? (
+        {/* Account Details Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Role Card */}
+          <Card className="border-0 shadow-sm bg-white">
             <CardContent className="p-6">
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <FileX className="h-12 w-12 text-gray-400 mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  No calls found
-                </h3>
-                <p className="text-gray-500 max-w-sm">
-                  This user hasn&apos;t made any trading calls yet. Check back later
-                  for updates.
-                </p>
+              <div className="flex items-center space-x-3">
+                <div className="p-2 bg-blue-100 rounded-lg">
+                  <Shield className="h-5 w-5 text-blue-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Role</p>
+                  <Badge
+                    variant={user.role === "ADMIN" ? "default" : "secondary"}
+                    className={
+                      user.role === "ADMIN"
+                        ? "bg-blue-100 text-blue-800 hover:bg-blue-100"
+                        : "bg-gray-100 text-gray-800 hover:bg-gray-100"
+                    }
+                  >
+                    {user.role}
+                  </Badge>
+                </div>
               </div>
             </CardContent>
-          ) : (
-            <CardContent className="p-0">
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="bg-gray-50/50">
-                      <TableHead className="font-semibold text-gray-700">
-                        Stock
-                      </TableHead>
-                      <TableHead className="font-semibold text-gray-700">
-                        Action
-                      </TableHead>
-                      <TableHead className="font-semibold text-gray-700">
-                        Entry
-                      </TableHead>
-                      <TableHead className="font-semibold text-gray-700">
-                        Exit
-                      </TableHead>
-                      <TableHead className="font-semibold text-gray-700">
-                        Return
-                      </TableHead>
-                      <TableHead className="font-semibold text-gray-700">
-                        Status
-                      </TableHead>
-                      <TableHead className="font-semibold text-gray-700">
-                        Date
-                      </TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {user.calls.map((call, index) => (
-                      <TableRow key={index} className="hover:bg-gray-50/50">
-                        <TableCell className="font-medium text-gray-900">
-                          {call.stock}
-                        </TableCell>
-                        <TableCell>
-                          <Badge
-                            variant={
-                              call.action === "BUY" ? "default" : "secondary"
-                            }
-                            className={
-                              call.action === "BUY"
-                                ? "bg-green-100 text-green-800 hover:bg-green-100"
-                                : "bg-red-100 text-red-800 hover:bg-red-100"
-                            }
-                          >
-                            {call.action}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="text-gray-700">
-                          {call.entry}
-                        </TableCell>
-                        <TableCell className="text-gray-700">
-                          {call.exit}
-                        </TableCell>
-                        <TableCell>
-                          <span
-                            className={
-                              call.return.startsWith("+")
-                                ? "text-green-600 font-medium"
-                                : "text-red-600 font-medium"
-                            }
-                          >
-                            {call.return}
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          <Badge
-                            variant="secondary"
-                            className={
-                              call.status === "Profit"
-                                ? "bg-green-100 text-green-800 hover:bg-green-100"
-                                : "bg-red-100 text-red-800 hover:bg-red-100"
-                            }
-                          >
-                            {call.status === "Profit" ? (
-                              <TrendingUp className="w-3 h-3 mr-1" />
-                            ) : (
-                              <TrendingDown className="w-3 h-3 mr-1" />
-                            )}
-                            {call.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="text-gray-600">
-                          {call.createdAt.toLocaleDateString("en-GB", {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                          })}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+          </Card>
+
+          {/* Plan Card */}
+          <Card className="border-0 shadow-sm bg-white">
+            <CardContent className="p-6">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 bg-purple-100 rounded-lg">
+                  <Crown className="h-5 w-5 text-purple-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Plan</p>
+                  <Badge
+                    variant={user.plan === "PREMIUM" ? "default" : "secondary"}
+                    className={
+                      user.plan === "PREMIUM"
+                        ? "bg-purple-100 text-purple-800 hover:bg-purple-100"
+                        : "bg-gray-100 text-gray-800 hover:bg-gray-100"
+                    }
+                  >
+                    {user.plan}
+                  </Badge>
+                </div>
               </div>
             </CardContent>
-          )}
+          </Card>
+
+          {/* Provider Card */}
+          <Card className="border-0 shadow-sm bg-white">
+            <CardContent className="p-6">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 bg-green-100 rounded-lg">
+                  <User className="h-5 w-5 text-green-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500">
+                    Sign-in Method
+                  </p>
+                  <p className="text-lg font-semibold text-gray-900 capitalize">
+                    {user.provider}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Account Timeline */}
+        <Card className="border-0 shadow-sm bg-white">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Clock className="h-5 w-5" />
+              <span>Account Timeline</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="space-y-4">
+              <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <div>
+                  <p className="font-medium text-gray-900">Account Created</p>
+                  <p className="text-sm text-gray-600">
+                    {user.createdAt.toLocaleDateString("en-US", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                <div>
+                  <p className="font-medium text-gray-900">Last Updated</p>
+                  <p className="text-sm text-gray-600">
+                    {user.updatedAt.toLocaleDateString("en-US", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
         </Card>
       </div>
     </div>
@@ -182,9 +211,6 @@ async function GetData(username: string) {
   const data = await db.user.findFirst({
     where: {
       username,
-    },
-    include: {
-      calls: true,
     },
   });
   return data;

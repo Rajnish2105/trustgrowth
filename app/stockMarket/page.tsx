@@ -3,13 +3,10 @@
 import Disclaimer from "@/components/root/disclamer";
 import Image from "next/image";
 import Link from "next/link";
-import StockNavbar from "@/components/stock-navbar";
 
 export default function StockMarketHome() {
   return (
     <div>
-      <StockNavbar />
-
       {/* Hero Section */}
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-br from-white to-emerald-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

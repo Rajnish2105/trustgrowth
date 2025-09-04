@@ -6,6 +6,8 @@ declare module "next-auth" {
     username?: string;
     provider?: string;
     role?: string;
+    plan?: string;
+    emailVerified?: Date | null;
   }
   interface Session {
     user: {
@@ -14,6 +16,8 @@ declare module "next-auth" {
       username?: string;
       provider?: string;
       role?: string;
+      plan?: string;
+      emailVerified?: Date | null;
     };
   }
 }
@@ -25,5 +29,6 @@ declare module "next-auth/jwt" {
     username?: string;
     provider?: string;
     role?: string;
+    plan?: string;
   }
 }

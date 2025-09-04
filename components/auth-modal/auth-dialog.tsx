@@ -1,7 +1,9 @@
 "use client";
 
+import type React from "react";
+
 import { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { X, Eye, EyeOff } from "lucide-react";
 import { createPortal } from "react-dom";
 import { signIn } from "next-auth/react";
 
@@ -23,6 +25,14 @@ export default function AuthDialog({ isOpen, onClose }: AuthDialogProps) {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [signUpError, setSignUpError] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [fieldErrors, setFieldErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
   useEffect(() => {
     setMounted(true);
@@ -77,6 +87,8 @@ export default function AuthDialog({ isOpen, onClose }: AuthDialogProps) {
   async function handleSignUp(e: React.FormEvent) {
     e.preventDefault();
     setSignUpError("");
+    setFieldErrors({ name: "", email: "", password: "" });
+
     const res = await fetch("/api/user", {
       method: "POST",
       body: JSON.stringify({ name, email, password }),
@@ -86,9 +98,18 @@ export default function AuthDialog({ isOpen, onClose }: AuthDialogProps) {
       await signIn("credentials", { email, password, redirect: false });
       onClose();
     } else {
-      setSignUpError("Registration failed");
+      const errorData = await res.json();
+      if (errorData.fieldErrors) {
+        setFieldErrors(errorData.fieldErrors);
+      } else {
+        setSignUpError("Registration failed");
+      }
     }
   }
+
+  const updateFieldError = (field: string, message: string) => {
+    setFieldErrors((prev) => ({ ...prev, [field]: message }));
+  };
 
   const dialogJSX = (
     <>
@@ -121,7 +142,7 @@ export default function AuthDialog({ isOpen, onClose }: AuthDialogProps) {
             <div className="relative z-10 flex justify-end p-4">
               <button
                 onClick={onClose}
-                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-white/20 rounded-full transition-colors duration-200"
+                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-white/20 rounded-full transition-colors duration-200 bg-slate-200"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -172,14 +193,27 @@ export default function AuthDialog({ isOpen, onClose }: AuthDialogProps) {
                     </div>
                     {/* Password Field */}
                     <div>
-                      <input
-                        type="password"
-                        placeholder="Password..."
-                        className="w-full px-4 py-3 bg-white/90 backdrop-blur-sm border border-green-200 rounded-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent shadow-sm"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                      />
+                      <div className="relative">
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Password..."
+                          className="w-full px-4 py-3 pr-12 bg-white/90 backdrop-blur-sm border border-green-200 rounded-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent shadow-sm"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          required
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors duration-200"
+                        >
+                          {showPassword ? (
+                            <EyeOff className="w-5 h-5" />
+                          ) : (
+                            <Eye className="w-5 h-5" />
+                          )}
+                        </button>
+                      </div>
                     </div>
                     {/* Error Message */}
                     {error && (
@@ -245,6 +279,11 @@ export default function AuthDialog({ isOpen, onClose }: AuthDialogProps) {
                         onChange={(e) => setName(e.target.value)}
                         required
                       />
+                      {fieldErrors.name && (
+                        <div className="text-red-600 text-sm mt-1 px-1">
+                          {fieldErrors.name}
+                        </div>
+                      )}
                     </div>
                     {/* Email Field */}
                     <div>
@@ -256,17 +295,40 @@ export default function AuthDialog({ isOpen, onClose }: AuthDialogProps) {
                         onChange={(e) => setEmail(e.target.value)}
                         required
                       />
+                      {fieldErrors.email && (
+                        <div className="text-red-600 text-sm mt-1 px-1">
+                          {fieldErrors.email}
+                        </div>
+                      )}
                     </div>
                     {/* Password Field */}
                     <div>
-                      <input
-                        type="password"
-                        placeholder="Password..."
-                        className="w-full px-4 py-3 bg-white/90 backdrop-blur-sm border border-green-200 rounded-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent shadow-sm"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                      />
+                      <div className="relative">
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Password..."
+                          className="w-full px-4 py-3 pr-12 bg-white/90 backdrop-blur-sm border border-green-200 rounded-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent shadow-sm"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          required
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors duration-200"
+                        >
+                          {showPassword ? (
+                            <EyeOff className="w-5 h-5" />
+                          ) : (
+                            <Eye className="w-5 h-5" />
+                          )}
+                        </button>
+                      </div>
+                      {fieldErrors.password && (
+                        <div className="text-red-600 text-sm mt-1 px-1">
+                          {fieldErrors.password}
+                        </div>
+                      )}
                     </div>
                     {/* Error Message */}
                     {signUpError && (

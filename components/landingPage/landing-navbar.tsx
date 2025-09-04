@@ -6,6 +6,7 @@ import AuthDialog from "../auth-modal/auth-dialog";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import multiavatar from "@multiavatar/multiavatar";
+import UserDiv from "../auth-modal/user-div";
 
 interface LandingNavbarProps {
   currentSlide?: number;
@@ -39,9 +40,6 @@ export default function LandingNavbar({
 
   const svgCode = multiavatar(user?.username || "user");
 
-  // Example: Replace with your actual user fetching logic
-  // useEffect(() => { ...fetch user and setUser... }, []);
-
   return (
     <RootNav className="justify-between">
       {/* Navigation Links */}
@@ -70,8 +68,8 @@ export default function LandingNavbar({
 
       {/* Sign In Button / User Info */}
       {status == "loading" ? (
-        <div className="flex items-center justify-center min-h-screen bg-white">
-          <div className="animate-spin rounded-full h-8 w-8 border-4 border-gray-300 border-t-gray-900"></div>
+        <div className="flex items-center justify-center bg-white mr-14">
+          <div className="animate-spin rounded-full h-8 w-8 border-4 border-gray-300 border-t-gray-900" />
         </div>
       ) : !user ? (
         <>
@@ -84,30 +82,12 @@ export default function LandingNavbar({
           <AuthDialog isOpen={authOpen} onClose={() => setAuthOpen(false)} />
         </>
       ) : (
-        <div className="flex items-center gap-3">
-          <div className="text-right">
-            <h2 className="text-sm font-medium text-gray-900">
-              {user.username}
-            </h2>
-            <p className="text-xs text-gray-500">{user.email}</p>
-          </div>
-          {/* You can add a user avatar or menu here if needed */}
-          <Link href={`/${user.username}`}>
-            <span
-              className="rounded-full overflow-hidden w-[40px] hover:w-[45px] transition-all duration-300 ease-in-out"
-              style={{
-                height: 40,
-                display: "inline-block",
-                boxShadow: `
-                0 0 10px rgba(59, 130, 246, 0.4),
-                0 0 20px rgba(59, 130, 246, 0.3),
-                0 0 30px rgba(59, 130, 246, 0.2)
-              `,
-              }}
-              dangerouslySetInnerHTML={{ __html: svgCode }}
-            />
-          </Link>
-        </div>
+        <UserDiv
+          username={user.username as string}
+          email={user.email as string}
+          plan={user.plan as string}
+          svgCode={svgCode}
+        />
       )}
     </RootNav>
   );

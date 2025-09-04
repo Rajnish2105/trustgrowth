@@ -7,6 +7,7 @@ import AuthDialog from "../components/auth-modal/auth-dialog";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import multiavatar from "@multiavatar/multiavatar";
+import UserDiv from "./auth-modal/user-div";
 
 export default function StockNavbar() {
   const pathname = usePathname();
@@ -18,6 +19,7 @@ export default function StockNavbar() {
   const navItems = [
     { name: "Home", href: "/stockMarket" },
     { name: "Calls", href: "/stockMarket/call" },
+    { name: "Intra Day", href: "/stockMarket/intra_day" },
     { name: "Pricing", href: "/stockMarket/pricing" },
     { name: "Past Results", href: "/stockMarket/past_result" },
     { name: "Contact", href: "/contact" },
@@ -77,29 +79,12 @@ export default function StockNavbar() {
           <AuthDialog isOpen={authOpen} onClose={() => setAuthOpen(false)} />
         </>
       ) : (
-        <div className="flex items-center gap-3">
-          <div className="text-right">
-            <h2 className="text-sm font-medium text-gray-900">
-              {user.username}
-            </h2>
-            <p className="text-xs text-gray-500">{user.email}</p>
-          </div>
-          <Link href={`/${user.username}`}>
-            <span
-              className="rounded-full overflow-hidden w-[40px] hover:w-[45px] transition-all duration-300 ease-in-out"
-              style={{
-                height: 40,
-                display: "inline-block",
-                boxShadow: `
-                0 0 10px rgba(59, 130, 246, 0.4),
-                0 0 20px rgba(59, 130, 246, 0.3),
-                0 0 30px rgba(59, 130, 246, 0.2)
-              `,
-              }}
-              dangerouslySetInnerHTML={{ __html: svgCode }}
-            />
-          </Link>
-        </div>
+        <UserDiv
+          username={user.username as String}
+          email={user.email as String}
+          plan={user.plan as String}
+          svgCode={svgCode}
+        />
       )}
     </RootNav>
   );

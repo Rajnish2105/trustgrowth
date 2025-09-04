@@ -26,31 +26,56 @@ enum Plan {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  username  String   
-  email     String   @unique
-  password  String
-  role      Role     @default(USER)
-  plan      Plan     @default(FREE)
-  provider  String   @default("email")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  calls     Calls[]
+  id            String         @id @default(uuid())
+  username      String   
+  email         String         @unique
+  password      String
+  role          Role           @default(USER)
+  plan          Plan           @default(FREE)
+  provider      String         @default("email")
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  notifications notification[]
 
   @@map("users")
+  @@index([id])
+}
+
+model notification {
+  id        String    @id @default(uuid())
+  userId    String
+  text      String
+  createdAt DateTime  @default(now())
+  isSeen    Boolean   @default(false)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+  @@index([userId])
+}
+
+enum Action {
+  BUY
+  SELL
+  WATCH
+  HOLD
 }
 
 model Calls {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  stock     String
-  action    String
-  entry     String
-  exit      String
-  return    String
-  status    String
-  createdAt DateTime @default(now())
+  id          String    @id @default(uuid())
+  symbol      String
+  entry       Float
+  stoploss    Float
+  minTarget   Int
+  stock       String
+  action      Action    @default(WATCH)
+  exit        String?
+  return      String?
+  description String
+  imageUrl    String
+  allUpdates  String[]  @default([])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@map("calls")
+  @@index([id])
 }

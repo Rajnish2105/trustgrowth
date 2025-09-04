@@ -50,7 +50,7 @@ export const addCacheTags = (response: Response, tags: string[]) => {
 /**
  * Create a response with proper cache headers
  */
-export const createNoCacheResponse = (data: any, status: number = 200) => {
+export const createNoCacheResponse = (data: unknown, status: number = 200) => {
   const response = new Response(JSON.stringify(data), {
     status,
     headers: {

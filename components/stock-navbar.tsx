@@ -80,9 +80,9 @@ export default function StockNavbar() {
         </>
       ) : (
         <UserDiv
-          username={user.username as String}
-          email={user.email as String}
-          plan={user.plan as String}
+          username={user.username as string}
+          email={user.email as string}
+          plan={user.plan as string}
           svgCode={svgCode}
         />
       )}

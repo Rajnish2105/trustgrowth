@@ -189,7 +189,7 @@ export function CreateCallForm() {
                     </Label>
                     <Select
                       value={formData.action}
-                      onValueChange={(value: any) =>
+                      onValueChange={(value: string) =>
                         handleInputChange("action", value)
                       }
                     >

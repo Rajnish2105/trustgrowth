@@ -25,6 +25,7 @@ import {
   ImageIcon,
   FileText,
 } from "lucide-react"
+import Image from "next/image"
 
 interface EditCallFormProps {
   callId: string
@@ -287,7 +288,7 @@ export function EditCallForm({ callId }: EditCallFormProps) {
                       </Label>
                       <Select
                         value={formData.action}
-                        onValueChange={(value: any) => handleInputChange("action", value)}
+                        onValueChange={(value: string) => handleInputChange("action", value)}
                       >
                         <SelectTrigger className="h-11 bg-input border-border/50 focus:border-primary focus:ring-primary/20">
                           <SelectValue />
@@ -468,7 +469,7 @@ export function EditCallForm({ callId }: EditCallFormProps) {
                               }
                             }}
                           >
-                            <img
+                            <Image
                               src={formData.imageUrl || "/placeholder.svg"}
                               alt="Current call image"
                               className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.02]"

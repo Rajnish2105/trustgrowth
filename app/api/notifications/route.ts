@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 
 // GET /api/notifications - get current user's notifications
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const session = await auth();
     if (!session?.user?.id) {
@@ -36,6 +36,7 @@ export async function GET(request: NextRequest) {
 
     return response;
   } catch (error) {
+    console.error("Error fetching notifications:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Bell, X, Volume2 } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
-import { useNotificationSound } from "@/hooks/useNotificationSound";
+import { Bell, X } from "lucide-react";
+import { useState, useEffect } from "react";
 import { useWebSocketContext } from "@/contexts/WebSocketContext";
 
 interface Notification {
@@ -28,8 +27,6 @@ export default function UserDiv({
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(false);
-  const previousUnreadCountRef = useRef(0);
-  const { playNotificationSound } = useNotificationSound();
   const { isConnected, on, off } = useWebSocketContext();
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;
@@ -38,7 +35,7 @@ export default function UserDiv({
   useEffect(() => {
     if (!isConnected) return;
 
-    const handleNewNotification = (data: any) => {
+    const handleNewNotification = (data: { id?: string; title?: string; message?: string; text?: string; createdAt?: string }) => {
       // Add new notification to the local list for UI updates
       const newNotification: Notification = {
         id: data.id || Date.now().toString(),

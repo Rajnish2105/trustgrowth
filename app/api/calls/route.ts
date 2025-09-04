@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
-import { invalidateCache, createNoCacheResponse } from "@/lib/cache-utils";
+import { invalidateCache } from "@/lib/cache-utils";
 import { createNotificationForAllUsers } from "@/app/actions/create-notification";
 
+type ActionType = "BUY" | "SELL" | "WATCH" | "HOLD";
+
 // GET /api/calls - Get all calls
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const session = await auth();
 
@@ -50,7 +52,7 @@ export async function POST(request: NextRequest) {
     const stoploss = formData.get("stoploss") as string;
     const minTarget = formData.get("minTarget") as string;
     const stock = formData.get("stock") as string;
-    const action = formData.get("action") as string;
+    const action = formData.get("action") as ActionType;
     const description = (formData.get("description") as string) || "";
     const image = formData.get("image") as File | null;
 
@@ -118,7 +120,7 @@ export async function POST(request: NextRequest) {
         stoploss: numericStoploss,
         minTarget: numericMinTarget,
         stock,
-        action: action as any,
+        action: action,
         description,
         imageUrl,
         allUpdates: [initialUpdate],

@@ -4,6 +4,8 @@ import { db } from "@/lib/db";
 import { invalidateCache } from "@/lib/cache-utils";
 import { createNotificationForAllUsers } from "@/app/actions/create-notification";
 
+type ActionType = "BUY" | "SELL" | "WATCH" | "HOLD";
+
 // GET /api/calls/[id] - Get a specific call
 export async function GET(
   request: NextRequest,
@@ -61,7 +63,17 @@ export async function PUT(
     }
 
     // Prepare update data (only include fields that are provided)
-    const dataToUpdate: any = {};
+    const dataToUpdate: Partial<{
+      symbol: string;
+      entry: number;
+      stoploss: number;
+      minTarget: number;
+      stock: string;
+      action: ActionType;
+      description: string;
+      exit: string;
+      return: string;
+    }> = {};
     if (updateData.symbol !== undefined)
       dataToUpdate.symbol = updateData.symbol;
     if (updateData.entry !== undefined)
@@ -72,7 +84,7 @@ export async function PUT(
       dataToUpdate.minTarget = parseInt(updateData.minTarget);
     if (updateData.stock !== undefined) dataToUpdate.stock = updateData.stock;
     if (updateData.action !== undefined)
-      dataToUpdate.action = updateData.action;
+      dataToUpdate.action = updateData.action as ActionType;
     if (updateData.description !== undefined)
       dataToUpdate.description = updateData.description;
     if (updateData.exit !== undefined) dataToUpdate.exit = updateData.exit;

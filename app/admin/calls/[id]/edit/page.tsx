@@ -3,9 +3,9 @@ import { redirect } from "next/navigation";
 import { EditCallForm } from "@/components/adminPanel/EditCallForm";
 
 interface EditCallPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default async function EditCallPage({ params }: EditCallPageProps) {

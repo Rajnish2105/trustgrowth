@@ -2,6 +2,7 @@
 import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog"
 import { X } from "lucide-react"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
 type ImageModalProps = {
   open: boolean
@@ -31,7 +32,7 @@ export function ImageModal({ open, onOpenChange, src, alt = "Image preview", cla
         )}
       >
         <div className="relative max-w-[95vw] max-h-[95vh] flex items-center justify-center">
-          <img
+          <Image
             src={src || "/placeholder.svg"}
             alt={alt}
             className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"

@@ -107,10 +107,6 @@ export default function AuthDialog({ isOpen, onClose }: AuthDialogProps) {
     }
   }
 
-  const updateFieldError = (field: string, message: string) => {
-    setFieldErrors((prev) => ({ ...prev, [field]: message }));
-  };
-
   const dialogJSX = (
     <>
       {isOpen && (

@@ -2,23 +2,10 @@
 
 import type React from "react";
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { TrendingUp, BarChart3, Activity, Mail, Bell } from "lucide-react";
+import { TrendingUp, BarChart3, Activity } from "lucide-react";
 
 export default function IntraDayPage() {
-  const [email, setEmail] = useState("");
-  const [isSubscribed, setIsSubscribed] = useState(false);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      setIsSubscribed(true);
-      setEmail("");
-    }
-  };
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-background via-card/30 to-background">

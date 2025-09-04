@@ -2,7 +2,7 @@
 
 export class WebSocketClient {
   private ws: WebSocket | null = null;
-  private messageHandlers: Map<string, ((data: any) => void)[]> = new Map();
+  private messageHandlers: Map<string, ((data: unknown) => void)[]> = new Map();
 
   constructor() {
     if (typeof window !== "undefined") {
@@ -50,7 +50,7 @@ export class WebSocketClient {
   }
 
   // Send message to server
-  send(type: string, data: any) {
+  send(type: string, data: unknown) {
     if (this.ws && this.ws.readyState === WebSocket.OPEN) {
       this.ws.send(JSON.stringify({ type, data }));
     } else {
@@ -59,7 +59,7 @@ export class WebSocketClient {
   }
 
   // Handle incoming messages
-  private handleMessage(message: any) {
+  private handleMessage(message: { type: string; data: unknown }) {
     const handlers = this.messageHandlers.get(message.type) || [];
     handlers.forEach((handler) => {
       try {
@@ -71,7 +71,7 @@ export class WebSocketClient {
   }
 
   // Add message handler
-  on(messageType: string, handler: (data: any) => void) {
+  on(messageType: string, handler: (data: unknown) => void) {
     if (!this.messageHandlers.has(messageType)) {
       this.messageHandlers.set(messageType, []);
     }
@@ -79,7 +79,7 @@ export class WebSocketClient {
   }
 
   // Remove message handler
-  off(messageType: string, handler: (data: any) => void) {
+  off(messageType: string, handler: (data: unknown) => void) {
     const handlers = this.messageHandlers.get(messageType);
     if (handlers) {
       const index = handlers.indexOf(handler);

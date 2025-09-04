@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ImageModal } from "@/components/adminPanel/image-modal";
+import Image from "next/image";
 import {
   ArrowLeft,
   TrendingUp,
@@ -305,7 +306,7 @@ export default function CallDetailsPage() {
                     className="relative w-full h-48 bg-gray-50 rounded-lg overflow-hidden cursor-zoom-in group"
                     onClick={() => setIsImageModalOpen(true)}
                   >
-                    <img
+                    <Image
                       src={call.imageUrl}
                       alt={`${call.stock} call chart`}
                       className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
